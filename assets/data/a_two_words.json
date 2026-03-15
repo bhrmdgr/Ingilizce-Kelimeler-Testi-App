@@ -1,0 +1,4298 @@
+[
+  {
+    "en": "ability",
+    "tr": "yetenek",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "accident",
+    "tr": "kaza",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "actor",
+    "tr": "erkek oyuncu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "activity",
+    "tr": "aktivite",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "address",
+    "tr": "adres",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "adult",
+    "tr": "yetişkin",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "adventure",
+    "tr": "macera",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "advice",
+    "tr": "tavsiye",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "afternoon",
+    "tr": "öğleden sonra",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "airline",
+    "tr": "havayolu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "airport",
+    "tr": "havaalanı",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "alarm",
+    "tr": "alarm",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "album",
+    "tr": "albüm",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "alcohol",
+    "tr": "alkol",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "ambulance",
+    "tr": "ambulans",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "amount",
+    "tr": "miktar",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "app",
+    "tr": "uygulama",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "appointment",
+    "tr": "randevu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "area",
+    "tr": "alan, bölge",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "arm",
+    "tr": "kol",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "army",
+    "tr": "ordu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "artist",
+    "tr": "sanatçı",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "assistant",
+    "tr": "asistan",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "athlete",
+    "tr": "atlet",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "audience",
+    "tr": "izleyici",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "author",
+    "tr": "yazar",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "average",
+    "tr": "ortalama",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "balloon",
+    "tr": "balon",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "band",
+    "tr": "müzik grubu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "baseball",
+    "tr": "beyzbol",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "basketball",
+    "tr": "basketbol",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "battery",
+    "tr": "pil",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "battle",
+    "tr": "savaş, muharebe",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "beauty",
+    "tr": "güzellik",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "beginner",
+    "tr": "yeni başlayan",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "behavior",
+    "tr": "davranış",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "belt",
+    "tr": "kemer",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "bicycle",
+    "tr": "bisiklet",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "bill",
+    "tr": "fatura",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "biology",
+    "tr": "biyoloji",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "birth",
+    "tr": "doğum",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "birthday",
+    "tr": "doğum günü",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "biscuit",
+    "tr": "bisküvi",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "blanket",
+    "tr": "battaniye",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "blog",
+    "tr": "blog",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "board",
+    "tr": "tahta, kurul",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "bomb",
+    "tr": "bomba",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "bone",
+    "tr": "kemik",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "border",
+    "tr": "sınır",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "bottle",
+    "tr": "şişe",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "bowl",
+    "tr": "kase",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "brain",
+    "tr": "beyin",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "bridge",
+    "tr": "köprü",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "brush",
+    "tr": "fırça",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "burn",
+    "tr": "yanık",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "button",
+    "tr": "düğme",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "calendar",
+    "tr": "takvim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "camp",
+    "tr": "kamp",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "capital",
+    "tr": "başkent",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "career",
+    "tr": "kariyer",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "case",
+    "tr": "vaka, durum",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "cash",
+    "tr": "nakit",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "castle",
+    "tr": "kale",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "celebration",
+    "tr": "kutlama",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "cell phone",
+    "tr": "cep telefonu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "century",
+    "tr": "yüzyıl",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "ceremony",
+    "tr": "tören",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "chain",
+    "tr": "zincir",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "challenge",
+    "tr": "meydan okuma",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "champion",
+    "tr": "şampiyon",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "chapter",
+    "tr": "bölüm",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "charity",
+    "tr": "hayır kurumu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "chat",
+    "tr": "sohbet",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "chef",
+    "tr": "şef",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "chemistry",
+    "tr": "kimya",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "chest",
+    "tr": "göğüs",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "circle",
+    "tr": "daire",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "climate",
+    "tr": "iklim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "clue",
+    "tr": "ipucu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "coach",
+    "tr": "antrenör",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "coal",
+    "tr": "kömür",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "coast",
+    "tr": "sahil",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "code",
+    "tr": "kod",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "colleague",
+    "tr": "iş arkadaşı",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "collection",
+    "tr": "koleksiyon",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "column",
+    "tr": "sütun",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "comedy",
+    "tr": "komedi",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "competition",
+    "tr": "yarışma",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "concert",
+    "tr": "konser",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "condition",
+    "tr": "şart, durum",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "conference",
+    "tr": "konferans",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "connection",
+    "tr": "bağlantı",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "contact",
+    "tr": "iletişim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "contest",
+    "tr": "yarışma",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "continent",
+    "tr": "kıta",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "conversation",
+    "tr": "sohbet",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "corner",
+    "tr": "köşe",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "couple",
+    "tr": "çift",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "creature",
+    "tr": "yaratık",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "credit card",
+    "tr": "kredi kartı",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "crew",
+    "tr": "ekip, mürettebat",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "crime",
+    "tr": "suç",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "crowd",
+    "tr": "kalabalık",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "culture",
+    "tr": "kültür",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "currency",
+    "tr": "para birimi",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "curtain",
+    "tr": "perde",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "customer",
+    "tr": "müşteri",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "damage",
+    "tr": "hasar",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "danger",
+    "tr": "tehlike",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "data",
+    "tr": "veri",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "deadline",
+    "tr": "son teslim tarihi",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "decision",
+    "tr": "karar",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "degree",
+    "tr": "derece",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "delivery",
+    "tr": "teslimat",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "department",
+    "tr": "departman",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "description",
+    "tr": "açıklama",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "desert",
+    "tr": "çöl",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "design",
+    "tr": "tasarım",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "destination",
+    "tr": "varış noktası",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "detail",
+    "tr": "detay",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "detective",
+    "tr": "dedektif",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "development",
+    "tr": "gelişim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "diagram",
+    "tr": "diyagram",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "diamond",
+    "tr": "elmas",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "diary",
+    "tr": "günlük",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "dictionary",
+    "tr": "sözlük",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "difference",
+    "tr": "fark",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "difficulty",
+    "tr": "zorluk",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "direction",
+    "tr": "yön",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "director",
+    "tr": "yönetmen",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "disaster",
+    "tr": "felaket",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "discount",
+    "tr": "indirim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "discovery",
+    "tr": "keşif",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "discussion",
+    "tr": "tartışma",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "disease",
+    "tr": "hastalık",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "distance",
+    "tr": "mesafe",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "document",
+    "tr": "doküman",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "double",
+    "tr": "çift",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "drama",
+    "tr": "drama",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "dream",
+    "tr": "rüya",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "earth",
+    "tr": "dünya, yeryüzü",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "education",
+    "tr": "eğitim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "effect",
+    "tr": "etki",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "effort",
+    "tr": "çaba",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "election",
+    "tr": "seçim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "electricity",
+    "tr": "elektrik",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "emergency",
+    "tr": "acil durum",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "employee",
+    "tr": "çalışan",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "employer",
+    "tr": "işveren",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "energy",
+    "tr": "enerji",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "engine",
+    "tr": "motor",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "engineer",
+    "tr": "mühendis",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "environment",
+    "tr": "çevre",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "equipment",
+    "tr": "ekipman",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "error",
+    "tr": "hata",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "event",
+    "tr": "etkinlik",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "evidence",
+    "tr": "kanıt",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "exam",
+    "tr": "sınav",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "experience",
+    "tr": "deneyim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "experiment",
+    "tr": "deney",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "expert",
+    "tr": "uzman",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "explanation",
+    "tr": "açıklama",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "factory",
+    "tr": "fabrika",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "failure",
+    "tr": "başarısızlık",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "farmer",
+    "tr": "çiftçi",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "fashion",
+    "tr": "moda",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "feeling",
+    "tr": "his, duygu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "festival",
+    "tr": "festival",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "fiction",
+    "tr": "kurgu",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "field",
+    "tr": "alan, tarla",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "fight",
+    "tr": "kavga",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "figure",
+    "tr": "figür, rakam",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "film director",
+    "tr": "film yönetmeni",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "final",
+    "tr": "final",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "finger",
+    "tr": "parmak",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "fireman",
+    "tr": "itfaiyeci",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "flight",
+    "tr": "uçuş",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "fog",
+    "tr": "sis",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "folder",
+    "tr": "klasör",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "fork",
+    "tr": "çatal",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "form",
+    "tr": "form",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "freedom",
+    "tr": "özgürlük",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "fuel",
+    "tr": "yakıt",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "furniture",
+    "tr": "mobilya",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "garage",
+    "tr": "garaj",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "gate",
+    "tr": "kapı, geçit",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "generation",
+    "tr": "nesil",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "ghost",
+    "tr": "hayalet",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "gift",
+    "tr": "hediye",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "goal",
+    "tr": "hedef, gol",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "government",
+    "tr": "hükümet",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "grass",
+    "tr": "çim",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "guard",
+    "tr": "koruma, gardiyan",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "guest",
+    "tr": "misafir",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "guide",
+    "tr": "rehber",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "habit",
+    "tr": "alışkanlık",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "hall",
+    "tr": "koridor, salon",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "happiness",
+    "tr": "mutluluk",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "harbor",
+    "tr": "liman",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "headache",
+    "tr": "baş ağrısı",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "health",
+    "tr": "sağlık",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "height",
+    "tr": "yükseklik",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "helicopter",
+    "tr": "helikopter",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "helmet",
+    "tr": "kask",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "highway",
+    "tr": "otoyol",
+    "level": "A2",
+    "type": "noun"
+  },
+  {
+    "en": "advertise",
+    "tr": "reklam yapmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "advise",
+    "tr": "tavsiye vermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "afford",
+    "tr": "maddi gücü yetmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "agree",
+    "tr": "katılmak, aynı fikirde olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "allow",
+    "tr": "izin vermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "announce",
+    "tr": "anons etmek, duyurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "appear",
+    "tr": "görünmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "apply",
+    "tr": "başvurmak, uygulamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "argue",
+    "tr": "tartışmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "arrange",
+    "tr": "düzenlemek, ayarlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "arrest",
+    "tr": "tutuklamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "attach",
+    "tr": "eklemek, iliştirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "attack",
+    "tr": "saldırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "attend",
+    "tr": "katılmak (toplantı, ders)",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "attract",
+    "tr": "cezbetmek, çekmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "avoid",
+    "tr": "kaçınmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "base",
+    "tr": "dayandırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "beat",
+    "tr": "yenmek, vurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "belong",
+    "tr": "ait olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "bite",
+    "tr": "ısırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "blame",
+    "tr": "suçlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "blow",
+    "tr": "üflemek, esmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "borrow",
+    "tr": "ödünç almak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "bother",
+    "tr": "rahatsız etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "bounce",
+    "tr": "zıplamak, sektirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "brake",
+    "tr": "fren yapmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "burn",
+    "tr": "yakmak, yanmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "calculate",
+    "tr": "hesaplamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "cancel",
+    "tr": "iptal etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "care",
+    "tr": "ilgilenmek, önemsemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "celebrate",
+    "tr": "kutlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "charge",
+    "tr": "şarj etmek, ücretlendirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "chase",
+    "tr": "kovalamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "chat",
+    "tr": "sohbet etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "check",
+    "tr": "kontrol etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "climb",
+    "tr": "tırmanmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "collect",
+    "tr": "toplamak, biriktirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "compare",
+    "tr": "karşılaştırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "complain",
+    "tr": "şikayet etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "complete",
+    "tr": "tamamlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "confirm",
+    "tr": "onaylamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "connect",
+    "tr": "bağlanmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "consider",
+    "tr": "düşünmek, dikkate almak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "contact",
+    "tr": "iletişim kurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "continue",
+    "tr": "devam etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "control",
+    "tr": "kontrol etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "cook",
+    "tr": "yemek pişirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "copy",
+    "tr": "kopyalamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "count",
+    "tr": "saymak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "cover",
+    "tr": "örtmek, kaplamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "create",
+    "tr": "yaratmak, oluşturmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "cross",
+    "tr": "karşıya geçmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "damage",
+    "tr": "zarar vermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "dance",
+    "tr": "dans etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "deal",
+    "tr": "anlaşmak, ilgilenmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "decide",
+    "tr": "karar vermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "decorate",
+    "tr": "dekore etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "delay",
+    "tr": "geciktirmek, ertelemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "deliver",
+    "tr": "teslim etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "depend",
+    "tr": "bağlı olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "describe",
+    "tr": "tanımlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "design",
+    "tr": "tasarlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "destroy",
+    "tr": "yok etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "develop",
+    "tr": "geliştirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "discover",
+    "tr": "keşfetmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "discuss",
+    "tr": "tartışmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "divide",
+    "tr": "bölmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "dream",
+    "tr": "rüya görmek, hayal kurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "drop",
+    "tr": "düşürmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "earn",
+    "tr": "kazanmak (para)",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "educate",
+    "tr": "eğitmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "employ",
+    "tr": "işe almak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "encourage",
+    "tr": "cesaretlendirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "enjoy",
+    "tr": "keyif almak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "enter",
+    "tr": "girmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "escape",
+    "tr": "kaçmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "examine",
+    "tr": "incelemek, muayene etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "exist",
+    "tr": "var olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "expect",
+    "tr": "ummak, beklemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "experience",
+    "tr": "tecrübe etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "explain",
+    "tr": "açıklamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "explore",
+    "tr": "keşfetmek (araştırmak)",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "express",
+    "tr": "ifade etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "fail",
+    "tr": "başarısız olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "fear",
+    "tr": "korkmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "feed",
+    "tr": "beslemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "fill",
+    "tr": "doldurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "fit",
+    "tr": "uymak, oturmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "fix",
+    "tr": "tamir etmek, sabitlemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "follow",
+    "tr": "takip etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "forgive",
+    "tr": "affetmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "freeze",
+    "tr": "donmak, dondurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "fry",
+    "tr": "kızartmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "guess",
+    "tr": "tahmin etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "guide",
+    "tr": "rehberlik etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "handle",
+    "tr": "ele almak, başa çıkmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "hate",
+    "tr": "nefret etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "head",
+    "tr": "yönetmek, başında olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "hit",
+    "tr": "vurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "hope",
+    "tr": "umut etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "hunt",
+    "tr": "avlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "hurry",
+    "tr": "acele etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "identify",
+    "tr": "tanımlamak, belirlemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "imagine",
+    "tr": "hayal etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "improve",
+    "tr": "geliştirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "include",
+    "tr": "içermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "increase",
+    "tr": "artırmak, artmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "influence",
+    "tr": "etkilemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "inform",
+    "tr": "bilgilendirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "inject",
+    "tr": "enjekte etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "insist",
+    "tr": "ısrar etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "install",
+    "tr": "kurmak (yazılım vb.)",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "intend",
+    "tr": "niyet etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "interrupt",
+    "tr": "sözünü kesmek, bölmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "introduce",
+    "tr": "tanıştırmak, tanıtmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "invent",
+    "tr": "icat etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "invite",
+    "tr": "davet etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "involve",
+    "tr": "dahil etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "jog",
+    "tr": "yavaş tempoda koşmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "join",
+    "tr": "katılmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "jump",
+    "tr": "zıplamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "kick",
+    "tr": "tekmeler atmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "knock",
+    "tr": "kapı çalmak, vurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "last",
+    "tr": "sürmek (zaman olarak)",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "laugh",
+    "tr": "gülmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "lay",
+    "tr": "sermek, koymak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "lead",
+    "tr": "liderlik etmek, yol göstermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "lend",
+    "tr": "ödünç vermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "lie",
+    "tr": "yalan söylemek, uzanmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "lift",
+    "tr": "kaldırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "link",
+    "tr": "bağlantı kurmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "lock",
+    "tr": "kilitlemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "manage",
+    "tr": "yönetmek, başarmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "mark",
+    "tr": "işaretlemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "match",
+    "tr": "eşleştirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "matter",
+    "tr": "önemli olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "measure",
+    "tr": "ölçmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "mention",
+    "tr": "bahsetmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "mind",
+    "tr": "önemsemek, takmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "miss",
+    "tr": "özlemek, kaçırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "mix",
+    "tr": "karıştırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "notice",
+    "tr": "fark etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "offer",
+    "tr": "teklif etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "own",
+    "tr": "sahip olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "paint",
+    "tr": "boyamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "park",
+    "tr": "park etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "pass",
+    "tr": "geçmek, pas vermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "perform",
+    "tr": "sergilemek, icra etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "permit",
+    "tr": "izin vermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "persuade",
+    "tr": "ikna etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "pick",
+    "tr": "seçmek, toplamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "plan",
+    "tr": "planlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "plant",
+    "tr": "dikmek (bitki)",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "point",
+    "tr": "işaret etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "prefer",
+    "tr": "tercih etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "prepare",
+    "tr": "hazırlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "present",
+    "tr": "sunmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "prevent",
+    "tr": "önlemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "produce",
+    "tr": "üretmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "program",
+    "tr": "programlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "promise",
+    "tr": "söz vermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "protect",
+    "tr": "korumak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "provide",
+    "tr": "sağlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "publish",
+    "tr": "yayınlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "pull",
+    "tr": "çekmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "push",
+    "tr": "itmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "raise",
+    "tr": "yükseltmek, artırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "reach",
+    "tr": "ulaşmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "receive",
+    "tr": "teslim almak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "recommend",
+    "tr": "tavsiye etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "record",
+    "tr": "kaydetmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "reduce",
+    "tr": "azaltmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "refuse",
+    "tr": "reddetmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "regret",
+    "tr": "pişman olmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "relax",
+    "tr": "rahatlamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "release",
+    "tr": "serbest bırakmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "remain",
+    "tr": "kalmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "repair",
+    "tr": "tamir etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "repeat",
+    "tr": "tekrar etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "replace",
+    "tr": "yer değiştirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "reply",
+    "tr": "cevaplamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "report",
+    "tr": "rapor etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "request",
+    "tr": "istek yapmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "rescue",
+    "tr": "kurtarmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "reserve",
+    "tr": "ayırtmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "return",
+    "tr": "geri dönmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "review",
+    "tr": "gözden geçirmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "ride",
+    "tr": "binmek (bisiklet, at)",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "ring",
+    "tr": "çalmak (telefon, zil)",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "rise",
+    "tr": "yükselmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "rule",
+    "tr": "yönetmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "save",
+    "tr": "kaydetmek, kurtarmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "score",
+    "tr": "puan almak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "search",
+    "tr": "aramak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "select",
+    "tr": "seçmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "serve",
+    "tr": "hizmet etmek, servis yapmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "shake",
+    "tr": "sallamak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "share",
+    "tr": "paylaşmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "shoot",
+    "tr": "ateş etmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "shout",
+    "tr": "bağırmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "shut",
+    "tr": "kapatmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "solve",
+    "tr": "çözmek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "suggest",
+    "tr": "önermek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "support",
+    "tr": "desteklemek",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "surprise",
+    "tr": "şaşırtmak",
+    "level": "A2",
+    "type": "verb"
+  },
+  {
+    "en": "active",
+    "tr": "aktif",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "actual",
+    "tr": "gerçek, asıl",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "additional",
+    "tr": "ilave, ek",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "advanced",
+    "tr": "ileri düzey",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "alive",
+    "tr": "hayatta, canlı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "angry",
+    "tr": "kızgın",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "anxious",
+    "tr": "endişeli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "artificial",
+    "tr": "yapay",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "asleep",
+    "tr": "uykuda",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "automatic",
+    "tr": "otomatik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "available",
+    "tr": "mevcut, müsait",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "awake",
+    "tr": "uyanık",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "basic",
+    "tr": "temel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "beautiful",
+    "tr": "güzel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "blind",
+    "tr": "kör",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "bored",
+    "tr": "sıkılmış",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "bright",
+    "tr": "parlak",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "broken",
+    "tr": "kırık, bozuk",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "calm",
+    "tr": "sakin",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "careful",
+    "tr": "dikkatli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "central",
+    "tr": "merkezi",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "certain",
+    "tr": "kesin, belirli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "cheap",
+    "tr": "ucuz",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "chemical",
+    "tr": "kimyasal",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "classic",
+    "tr": "klasik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "clear",
+    "tr": "net, açık",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "close",
+    "tr": "yakın",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "cold",
+    "tr": "soğuk",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "comfortable",
+    "tr": "rahat",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "common",
+    "tr": "yaygın, ortak",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "complete",
+    "tr": "tam, bütün",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "complex",
+    "tr": "karmaşık",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "confident",
+    "tr": "kendinden emin",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "cool",
+    "tr": "havalı, serin",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "correct",
+    "tr": "doğru",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "creative",
+    "tr": "yaratıcı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "crowded",
+    "tr": "kalabalık",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "cultural",
+    "tr": "kültürel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "curly",
+    "tr": "kıvırcık",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "current",
+    "tr": "güncel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "daily",
+    "tr": "günlük",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "dead",
+    "tr": "ölü",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "deaf",
+    "tr": "sağır",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "deep",
+    "tr": "derin",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "delicious",
+    "tr": "lezzetli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "digital",
+    "tr": "dijital",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "dirty",
+    "tr": "kirli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "double",
+    "tr": "çift",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "dry",
+    "tr": "kuru",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "each",
+    "tr": "her bir",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "eastern",
+    "tr": "doğuya ait",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "electric",
+    "tr": "elektrikli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "electronic",
+    "tr": "elektronik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "empty",
+    "tr": "boş",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "enormous",
+    "tr": "muazzam, devasa",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "equal",
+    "tr": "eşit",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "essential",
+    "tr": "temel, gerekli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "every",
+    "tr": "her",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "excellent",
+    "tr": "mükemmel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "exciting",
+    "tr": "heyecan verici",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "expensive",
+    "tr": "pahalı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "expert",
+    "tr": "uzman",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "extra",
+    "tr": "ekstra, fazladan",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "fair",
+    "tr": "adil",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "familiar",
+    "tr": "tanıdık",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "famous",
+    "tr": "ünlü",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "fancy",
+    "tr": "süslü, lüks",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "fast",
+    "tr": "hızlı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "fat",
+    "tr": "şişman",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "favorite",
+    "tr": "favori",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "female",
+    "tr": "kadın, dişi",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "final",
+    "tr": "final, son",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "financial",
+    "tr": "finansal",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "flat",
+    "tr": "düz",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "foreign",
+    "tr": "yabancı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "formal",
+    "tr": "resmi",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "free",
+    "tr": "bedava, özgür",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "fresh",
+    "tr": "taze",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "friendly",
+    "tr": "arkadaş canlısı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "frightened",
+    "tr": "korkmuş",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "front",
+    "tr": "ön",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "full",
+    "tr": "dolu",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "fun",
+    "tr": "eğlenceli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "funny",
+    "tr": "komik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "further",
+    "tr": "daha ileri",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "general",
+    "tr": "genel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "gentle",
+    "tr": "nazik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "glad",
+    "tr": "memnun",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "global",
+    "tr": "küresel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "gold",
+    "tr": "altın",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "good",
+    "tr": "iyi",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "grand",
+    "tr": "büyük, görkemli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "gray",
+    "tr": "gri",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "great",
+    "tr": "harika",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "green",
+    "tr": "yeşil",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "guilty",
+    "tr": "suçlu",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "happy",
+    "tr": "mutlu",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "hard",
+    "tr": "zor, sert",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "healthy",
+    "tr": "sağlıklı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "heavy",
+    "tr": "ağır",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "helpful",
+    "tr": "yardımcı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "high",
+    "tr": "yüksek",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "honest",
+    "tr": "dürüst",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "hot",
+    "tr": "sıcak",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "huge",
+    "tr": "devasa",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "human",
+    "tr": "insani",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "hungry",
+    "tr": "aç",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "ideal",
+    "tr": "ideal",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "important",
+    "tr": "önemli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "impossible",
+    "tr": "imkansız",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "independent",
+    "tr": "bağımsız",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "individual",
+    "tr": "bireysel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "inner",
+    "tr": "iç",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "intelligent",
+    "tr": "zeki",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "interested",
+    "tr": "ilgili",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "interesting",
+    "tr": "ilginç",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "internal",
+    "tr": "içsel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "international",
+    "tr": "uluslararası",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "joint",
+    "tr": "ortak",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "junior",
+    "tr": "küçük, alt düzey",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "just",
+    "tr": "adil",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "kind",
+    "tr": "nazik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "large",
+    "tr": "geniş, iri",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "last",
+    "tr": "sonuncu",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "late",
+    "tr": "geç",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "lazy",
+    "tr": "tembel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "left",
+    "tr": "sol",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "legal",
+    "tr": "yasal",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "level",
+    "tr": "düz",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "light",
+    "tr": "hafif, açık (renk)",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "likely",
+    "tr": "muhtemel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "limited",
+    "tr": "sınırlı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "little",
+    "tr": "küçük",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "live",
+    "tr": "canlı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "local",
+    "tr": "yerel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "long",
+    "tr": "uzun",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "loose",
+    "tr": "gevşek",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "loud",
+    "tr": "gürültülü",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "low",
+    "tr": "düşük",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "lucky",
+    "tr": "şanslı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "main",
+    "tr": "ana, temel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "male",
+    "tr": "erkek",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "married",
+    "tr": "evli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "massive",
+    "tr": "devasa",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "medical",
+    "tr": "tıbbi",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "mental",
+    "tr": "zihinsel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "middle",
+    "tr": "orta",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "missing",
+    "tr": "kayıp, eksik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "modern",
+    "tr": "modern",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "narrow",
+    "tr": "dar",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "national",
+    "tr": "ulusal",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "natural",
+    "tr": "doğal",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "near",
+    "tr": "yakın",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "necessary",
+    "tr": "gerekli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "negative",
+    "tr": "olumsuz",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "nervous",
+    "tr": "gergin",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "new",
+    "tr": "yeni",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "nice",
+    "tr": "hoş, güzel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "normal",
+    "tr": "normal",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "northern",
+    "tr": "kuzeye ait",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "odd",
+    "tr": "tuhaf",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "official",
+    "tr": "resmi",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "old",
+    "tr": "eski, yaşlı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "opposite",
+    "tr": "zıt, karşı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "ordinary",
+    "tr": "sıradan",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "original",
+    "tr": "özgün, orijinal",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "other",
+    "tr": "diğer",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "outer",
+    "tr": "dış",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "own",
+    "tr": "kendi",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "pale",
+    "tr": "solgun",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "past",
+    "tr": "geçmiş",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "patient",
+    "tr": "sabırlı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "perfect",
+    "tr": "mükemmel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "personal",
+    "tr": "kişisel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "physical",
+    "tr": "fiziksel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "pink",
+    "tr": "pembe",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "plain",
+    "tr": "sade, düz",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "plastic",
+    "tr": "plastik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "pleasant",
+    "tr": "hoş",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "polite",
+    "tr": "kibar",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "poor",
+    "tr": "fakir, zavallı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "popular",
+    "tr": "popüler",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "positive",
+    "tr": "olumlu",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "possible",
+    "tr": "mümkün",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "potential",
+    "tr": "potansiyel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "practical",
+    "tr": "pratik",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "precious",
+    "tr": "değerli",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "pretty",
+    "tr": "sevimli, oldukça",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "previous",
+    "tr": "önceki",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "primary",
+    "tr": "birincil, temel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "private",
+    "tr": "özel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "professional",
+    "tr": "profesyonel",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "proper",
+    "tr": "uygun, düzgün",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "proud",
+    "tr": "gururlu",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "public",
+    "tr": "kamusal, halka açık",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "pure",
+    "tr": "saf",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "purple",
+    "tr": "mor",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "quick",
+    "tr": "hızlı",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "quiet",
+    "tr": "sessiz",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "rare",
+    "tr": "nadir",
+    "level": "A2",
+    "type": "adjective"
+  },
+  {
+    "en": "abroad",
+    "tr": "yurt dışında",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "absolutely",
+    "tr": "kesinlikle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "accidentally",
+    "tr": "kazara",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "actually",
+    "tr": "aslında",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "afterwards",
+    "tr": "sonradan, daha sonra",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "almost",
+    "tr": "neredeyse",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "altogether",
+    "tr": "tamamen, hep beraber",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "anywhere",
+    "tr": "herhangi bir yer",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "apart",
+    "tr": "ayrı olarak",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "around",
+    "tr": "yaklaşık, etrafta",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "as",
+    "tr": "olarak, kadar",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "automatically",
+    "tr": "otomatik olarak",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "backwards",
+    "tr": "geriye doğru",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "briefly",
+    "tr": "kısaca",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "brightly",
+    "tr": "parlak bir şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "calmly",
+    "tr": "sakin bir şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "carefully",
+    "tr": "dikkatlice",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "certainly",
+    "tr": "kesinlikle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "clearly",
+    "tr": "açıkça, net bir şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "completely",
+    "tr": "tamamen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "daily",
+    "tr": "günlük",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "deeply",
+    "tr": "derinden",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "definitely",
+    "tr": "kesinlikle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "directly",
+    "tr": "doğrudan",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "else",
+    "tr": "başka",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "elsewhere",
+    "tr": "başka bir yerde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "entirely",
+    "tr": "tamamen, bütünüyle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "equally",
+    "tr": "eşit şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "especially",
+    "tr": "özellikle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "even",
+    "tr": "hatta, bile",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "eventually",
+    "tr": "sonunda, nihayet",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "exactly",
+    "tr": "tam olarak",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "extremely",
+    "tr": "aşırı derecede",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "fairly",
+    "tr": "oldukça, adilce",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "finally",
+    "tr": "sonunda",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "forever",
+    "tr": "sonsuza dek",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "forward",
+    "tr": "ileri",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "frequently",
+    "tr": "sık sık",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "fully",
+    "tr": "tamamen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "gently",
+    "tr": "nazikçe",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "gradually",
+    "tr": "kademeli olarak",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "happily",
+    "tr": "mutlulukla",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "hardly",
+    "tr": "neredeyse hiç",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "honestly",
+    "tr": "dürüstçe",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "however",
+    "tr": "ancak, yine de",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "instead",
+    "tr": "yerine",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "likely",
+    "tr": "muhtemelen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "loudly",
+    "tr": "yüksek sesle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "mainly",
+    "tr": "temelde, çoğunlukla",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "merely",
+    "tr": "yalnızca, sadece",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "moreover",
+    "tr": "dahası",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "mostly",
+    "tr": "çoğunlukla",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "naturally",
+    "tr": "doğal olarak",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "nearly",
+    "tr": "neredeyse",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "necessarily",
+    "tr": "zorunlu olarak",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "normally",
+    "tr": "normalde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "obviously",
+    "tr": "besbelli, açıkça",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "occasionally",
+    "tr": "ara sıra",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "originally",
+    "tr": "aslında, orijinalinde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "otherwise",
+    "tr": "aksi takdirde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "outside",
+    "tr": "dışarıda",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "partly",
+    "tr": "kısmen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "perfectly",
+    "tr": "mükemmelce",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "personally",
+    "tr": "şahsen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "possibly",
+    "tr": "muhtemelen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "precisely",
+    "tr": "tam olarak, kesinlikle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "previously",
+    "tr": "önceden",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "primarily",
+    "tr": "öncelikle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "probably",
+    "tr": "muhtemelen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "properly",
+    "tr": "düzgünce",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "purely",
+    "tr": "safça, sadece",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "quietly",
+    "tr": "sessizce",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "quite",
+    "tr": "oldukça",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "rarely",
+    "tr": "nadiren",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "rather",
+    "tr": "oldukça",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "readily",
+    "tr": "kolayca, seve seve",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "really",
+    "tr": "gerçekten",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "recently",
+    "tr": "son zamanlarda",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "regularly",
+    "tr": "düzenli olarak",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "relatively",
+    "tr": "nispeten",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "roughly",
+    "tr": "kabaca",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "seriously",
+    "tr": "ciddiyetle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "sharply",
+    "tr": "keskin bir şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "shortly",
+    "tr": "yakında, kısa süre içinde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "similarly",
+    "tr": "benzer şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "simply",
+    "tr": "basitçe",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "slightly",
+    "tr": "hafifçe",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "somewhere",
+    "tr": "bir yerde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "specifically",
+    "tr": "özellikle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "strongly",
+    "tr": "güçlü bir şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "successfully",
+    "tr": "başarıyla",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "suddenly",
+    "tr": "aniden",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "terribly",
+    "tr": "feci şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "therefore",
+    "tr": "bu yüzden",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "thoroughly",
+    "tr": "iyice, tamamen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "together",
+    "tr": "birlikte",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "totally",
+    "tr": "tamamen",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "truly",
+    "tr": "gerçekten",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "unfortunately",
+    "tr": "maalesef",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "unusually",
+    "tr": "sıra dışı şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "very",
+    "tr": "çok",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "virtually",
+    "tr": "neredeyse, sanal olarak",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "widely",
+    "tr": "yaygın bir şekilde",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "wildly",
+    "tr": "vahşice, çılgınca",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "willingly",
+    "tr": "isteğiyle",
+    "level": "A2",
+    "type": "adverb"
+  },
+  {
+    "en": "yet",
+    "tr": "henüz, hala",
+    "level": "A2",
+    "type": "adverb"
+  }
+]
