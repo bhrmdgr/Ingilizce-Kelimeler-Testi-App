@@ -36,18 +36,19 @@ class PremiumView extends StatelessWidget {
 
                               const SizedBox(height: 30),
                               _buildFeatures(),
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 30),
 
                               if (!vm.isAlreadyPremium) _buildPriceCards(vm),
 
-                              const SizedBox(height: 40),
+                              const SizedBox(height: 20),
+                              _buildLegalLinks(vm),
+                              const SizedBox(height: 20),
 
                               if (!vm.isAlreadyPremium || vm.isAutoRenew)
                                 _buildMainButton(context, vm, settingsVM),
 
                               const SizedBox(height: 20),
-                              _buildLegalLinks(vm),
-                              const SizedBox(height: 20),
+
                             ],
                           ),
                         ),
@@ -313,9 +314,9 @@ class PremiumView extends StatelessWidget {
         ),
         if (Platform.isIOS)
           const Padding(
-            padding: EdgeInsets.only(top: 8.0),
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
-              "Ödeme onaylandığında iTunes hesabınızdan tahsil edilir. Abonelik otomatik olarak yenilenir.",
+              "Ödeme, satın alma onayının ardından iTunes Hesabınızdan tahsil edilecektir. Abonelik, cari dönemin bitiminden en az 24 saat önce otomatik yenileme kapatılmadığı sürece otomatik olarak yenilenir. Hesap, cari dönemin bitiminden 24 saat önce yenileme için ücretlendirilecektir.",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white38, fontSize: 10),
             ),

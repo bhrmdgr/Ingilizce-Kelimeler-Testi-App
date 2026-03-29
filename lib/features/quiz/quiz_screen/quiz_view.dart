@@ -52,17 +52,20 @@ class _QuizViewState extends State<QuizView> {
       vm.resetQuiz();
       if (widget.quizList.isNotEmpty) {
         await vm.generateOptions(widget.quizList[0]);
+
+        // Sadece yabancı dildeyse (İngilizce) otomatik seslendir
         if (vm.isCurrentQuestionEnToTr) {
-          _speak(widget.quizList[0].en);
+          _speak(widget.quizList[0].en, isEnglish: true);
         }
       }
     });
   }
 
-  Future<void> _speak(String text) async {
+  Future<void> _speak(String text, {bool isEnglish = true}) async {
     if (_isSoundEnabled && text.isNotEmpty) {
       try {
-        String url = "https://translate.google.com/translate_tts?ie=UTF-8&q=${Uri.encodeComponent(text)}&tl=en&client=tw-ob";
+        String lang = isEnglish ? "en" : "tr";
+        String url = "https://translate.google.com/translate_tts?ie=UTF-8&q=${Uri.encodeComponent(text)}&tl=$lang&client=tw-ob";
         await audioPlayer.play(UrlSource(url));
       } catch (e) {
         debugPrint("Ses çalma hatası: $e");
@@ -150,175 +153,124 @@ class _QuizViewState extends State<QuizView> {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
         final bool shouldPop = await _showBackDialog();
-        if (shouldPop && context.mounted) {
-          Navigator.pop(context);
-        }
+        if (shouldPop && context.mounted) Navigator.pop(context);
       },
       child: Scaffold(
-        extendBodyBehindAppBar: true,
+        backgroundColor: const Color(0xFFF8FAFF),
         appBar: AppBar(
-          title: Column(
-            children: [
-              Text(
-                "SORU ${vm.currentQuestionIndex + 1}",
-                style: TextStyle(color: Colors.indigo.shade900, fontWeight: FontWeight.w900, fontSize: 18),
-              ),
-              Text(
-                "${widget.quizList.length} SORU İÇİNDEN",
-                style: TextStyle(color: Colors.indigo.withOpacity(0.5), fontWeight: FontWeight.bold, fontSize: 10),
-              ),
-            ],
-          ),
-          centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 12),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: IconButton(
-                icon: Icon(Icons.close_rounded, color: Colors.indigo.shade900, size: 22),
-                onPressed: () async {
-                  final bool shouldPop = await _showBackDialog();
-                  if (shouldPop && context.mounted) {
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-            ),
+          leading: IconButton(
+            icon: const Icon(Icons.close_rounded, color: Color(0xFF1A1F36), size: 28),
+            onPressed: () async {
+              final bool shouldPop = await _showBackDialog();
+              if (shouldPop && context.mounted) Navigator.pop(context);
+            },
           ),
+          title: _buildProgressBar(progress, vm.currentQuestionIndex + 1, widget.quizList.length),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: IconButton(
-                  icon: Icon(
-                    _isSoundEnabled ? Icons.volume_up_rounded : Icons.volume_off_rounded,
-                    color: _isSoundEnabled ? const Color(0xFF6366F1) : Colors.grey,
-                    size: 20,
-                  ),
-                  onPressed: () => setState(() => _isSoundEnabled = !_isSoundEnabled),
-                ),
+            IconButton(
+              icon: Icon(
+                _isSoundEnabled ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+                color: _isSoundEnabled ? const Color(0xFF6366F1) : Colors.grey,
               ),
+              onPressed: () => setState(() => _isSoundEnabled = !_isSoundEnabled),
             ),
+            const SizedBox(width: 8),
           ],
         ),
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFFF0F3FF), Color(0xFFFFFFFF)],
-            ),
-          ),
-          child: SafeArea(
-            child: Stack(
-              children: [
-                Padding(
+        body: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                child: _buildScoreBoard(vm),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
-                      _buildProgressBar(progress),
-                      const SizedBox(height: 24),
-                      _buildScoreBoard(vm),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 16),
                       _buildWordCard(currentWord, vm.isCurrentQuestionEnToTr),
-                      const SizedBox(height: 40),
-                      Expanded(
-                        child: ListView.separated(
-                          padding: const EdgeInsets.only(bottom: 24),
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: vm.currentOptions.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: 16),
-                          itemBuilder: (context, index) {
-                            return _buildAnimatedOption(vm, vm.currentOptions[index], currentWord);
-                          },
-                        ),
-                      ),
+                      const SizedBox(height: 32),
+                      ...vm.currentOptions.map((option) => Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _buildAnimatedOption(vm, option, currentWord),
+                      )),
+                      const SizedBox(height: 24),
                     ],
                   ),
                 ),
-                if (vm.isLoading)
-                  BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                    child: Container(
-                      color: Colors.white.withOpacity(0.2),
-                      child: const Center(child: CircularProgressIndicator(color: Color(0xFF6366F1))),
-                    ),
-                  ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        bottomNavigationBar: SmartBannerWidget(
-          adUnitId: AdMobService.bannerAdUnitIdQuiz,
-        ),
+        bottomNavigationBar: SmartBannerWidget(adUnitId: AdMobService.bannerAdUnitIdQuiz),
       ),
     );
   }
 
-  Widget _buildProgressBar(double progress) {
-    return Container(
-      height: 12,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
-      child: FractionallySizedBox(
-        alignment: Alignment.centerLeft,
-        widthFactor: progress,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 600),
-          curve: Curves.easeOutBack,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)]),
-            borderRadius: BorderRadius.circular(20),
+  Widget _buildProgressBar(double progress, int current, int total) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("$current", style: const TextStyle(color: Color(0xFF6366F1), fontWeight: FontWeight.w900, fontSize: 14)),
+            Text(" / $total", style: TextStyle(color: Colors.indigo.withOpacity(0.3), fontWeight: FontWeight.bold, fontSize: 12)),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Container(
+          height: 8,
+          width: 120,
+          decoration: BoxDecoration(color: Colors.indigo.withOpacity(0.05), borderRadius: BorderRadius.circular(10)),
+          child: Stack(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                width: 120 * progress,
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)]),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ],
           ),
         ),
-      ),
+      ],
     );
   }
 
   Widget _buildWordCard(WordModel word, bool isEnToTr) {
     String questionText = isEnToTr ? word.en : word.tr;
-
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+      padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(32),
         boxShadow: [
-          BoxShadow(color: Colors.indigo.withOpacity(0.08), blurRadius: 30, offset: const Offset(0, 15)),
+          BoxShadow(color: const Color(0xFF6366F1).withOpacity(0.08), blurRadius: 40, offset: const Offset(0, 20)),
         ],
       ),
       child: Column(
         children: [
-          GestureDetector(
-            onTap: () => _speak(word.en),
+          InkWell(
+            onTap: () => _speak(questionText, isEnglish: isEnToTr),
             child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEEF2FF),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(Icons.volume_up_rounded, color: Color(0xFF6366F1), size: 32),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(color: const Color(0xFFF0F3FF), shape: BoxShape.circle),
+              child: const Icon(Icons.volume_up_rounded, color: Color(0xFF6366F1), size: 30),
             ),
           ),
           const SizedBox(height: 24),
           Text(
             questionText.toUpperCase(),
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.w900,
-              color: Colors.indigo.shade900,
-              letterSpacing: -0.5,
-            ),
+            style: const TextStyle(fontSize: 34, fontWeight: FontWeight.w900, color: Color(0xFF1A1F36), letterSpacing: -1),
           ),
         ],
       ),
@@ -328,7 +280,6 @@ class _QuizViewState extends State<QuizView> {
   Widget _buildAnimatedOption(QuizViewModel vm, String option, WordModel correctWord) {
     Color borderColor = _getBorderColor(option, correctWord, vm.isCurrentQuestionEnToTr);
     Color fillColor = _getFillColor(option, correctWord, vm.isCurrentQuestionEnToTr);
-
     String correctVal = vm.isCurrentQuestionEnToTr ? correctWord.tr : correctWord.en;
     bool isSelected = selectedOption == option;
     bool isCorrect = option == correctVal;
@@ -336,15 +287,14 @@ class _QuizViewState extends State<QuizView> {
     return GestureDetector(
       onTap: isChecking ? null : () => _handleAnswer(vm, option, correctWord),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
         decoration: BoxDecoration(
           color: fillColor,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: borderColor, width: 2.5),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: isChecking ? borderColor : Colors.transparent, width: 2),
           boxShadow: [
-            if (!isChecking)
-              BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4))
+            BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 15, offset: const Offset(0, 8))
           ],
         ),
         child: Row(
@@ -354,15 +304,13 @@ class _QuizViewState extends State<QuizView> {
                 option,
                 style: TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: isSelected || (isChecking && isCorrect) ? Colors.indigo.shade900 : Colors.indigo.shade700,
+                  fontWeight: FontWeight.w700,
+                  color: isSelected || (isChecking && isCorrect) ? const Color(0xFF1A1F36) : const Color(0xFF5A6275),
                 ),
               ),
             ),
-            if (isChecking && isCorrect)
-              const Icon(Icons.check_circle_rounded, color: Colors.green, size: 26),
-            if (isSelected && !isCorrect)
-              const Icon(Icons.cancel_rounded, color: Colors.redAccent, size: 26),
+            if (isChecking && isCorrect) const Icon(Icons.check_circle_rounded, color: Colors.green, size: 24),
+            if (isSelected && !isCorrect) const Icon(Icons.cancel_rounded, color: Colors.redAccent, size: 24),
           ],
         ),
       ),
@@ -371,26 +319,13 @@ class _QuizViewState extends State<QuizView> {
 
   void _handleAnswer(QuizViewModel vm, String option, WordModel word) async {
     if (isChecking) return;
-    setState(() {
-      selectedOption = option;
-      isChecking = true;
-      showScorePop = true;
-    });
+    setState(() { selectedOption = option; isChecking = true; showScorePop = true; });
 
     String correctVal = vm.isCurrentQuestionEnToTr ? word.tr : word.en;
     bool isCorrect = (option == correctVal);
     _playResultSound(isCorrect);
 
-    if (!vm.isCurrentQuestionEnToTr) {
-      _speak(word.en);
-    }
-
-    vm.answerQuestion(
-      word,
-      option,
-      isReviewMode: widget.isReviewMode,
-      isLearnedReview: widget.isLearnedReview,
-    );
+    vm.answerQuestion(word, option, isReviewMode: widget.isReviewMode, isLearnedReview: widget.isLearnedReview);
 
     Future.delayed(const Duration(milliseconds: 800), () {
       if (mounted) setState(() => showScorePop = false);
@@ -401,17 +336,19 @@ class _QuizViewState extends State<QuizView> {
     if (mounted) {
       if (vm.currentQuestionIndex < widget.quizList.length - 1) {
         await vm.nextQuestion(widget.quizList);
-        setState(() {
-          selectedOption = null;
-          isChecking = false;
-        });
+        setState(() { selectedOption = null; isChecking = false; });
+        final nextWord = widget.quizList[vm.currentQuestionIndex];
+
+        // Sadece yabancı dildeyse (İngilizce) otomatik seslendir
         if (vm.isCurrentQuestionEnToTr) {
-          _speak(widget.quizList[vm.currentQuestionIndex].en);
+          _speak(nextWord.en, isEnglish: true);
         }
       } else {
         await vm.uploadResults(widget.quizList.length);
         if (mounted) {
-          if (vm.shouldShowInterstitialAd(widget.quizList.length)) {
+          // ✅ Reklam gösterme kontrolünü ve diyalog akışını güncelledik
+          bool canShowAd = !widget.isReviewMode && !widget.isLearnedReview && vm.shouldShowInterstitialAd(widget.quizList.length);
+          if (canShowAd) {
             AdMobService.showInterstitialAd();
           }
           _showResultDialog(vm);
@@ -422,72 +359,57 @@ class _QuizViewState extends State<QuizView> {
 
   Widget _buildScoreBoard(QuizViewModel vm) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _scoreTileCompact(vm.correctCount, Colors.green, Icons.check_circle_outline_rounded),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF6366F1),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [BoxShadow(color: const Color(0xFF6366F1).withOpacity(0.3), blurRadius: 12, offset: const Offset(0, 4))],
+        _scoreBadge(vm.correctCount.toString(), Colors.green, Icons.check_circle_rounded),
+        Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF6366F1),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [BoxShadow(color: const Color(0xFF6366F1).withOpacity(0.3), blurRadius: 12)],
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.bolt_rounded, color: Colors.amber, size: 20),
+                  Text("${vm.currentScore} XP", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900)),
+                ],
+              ),
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              clipBehavior: Clip.none,
-              children: [
-                Column(
-                  children: [
-                    Text("${vm.currentScore} XP", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white)),
-                    if (vm.comboCount >= 3)
-                      Text("🔥 SERİ: ${vm.comboCount}", style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.orangeAccent)),
-                  ],
-                ),
-                if (showScorePop)
-                  Positioned(
-                    top: -35,
-                    child: TweenAnimationBuilder(
-                      tween: Tween<double>(begin: 0, end: -20),
-                      duration: const Duration(milliseconds: 500),
-                      builder: (context, double value, child) {
-                        return Transform.translate(
-                          offset: Offset(0, value),
-                          child: Text(
-                            vm.lastEarnedPoints > 0 ? "+${vm.lastEarnedPoints}" : "${vm.lastEarnedPoints}",
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w900,
-                              color: vm.lastEarnedPoints > 0 ? Colors.green.shade600 : Colors.redAccent,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+            if (showScorePop)
+              Positioned(
+                top: -30,
+                child: TweenAnimationBuilder(
+                  tween: Tween<double>(begin: 0, end: -20),
+                  duration: const Duration(milliseconds: 500),
+                  builder: (_, double val, __) => Transform.translate(
+                    offset: Offset(0, val),
+                    child: Text(vm.lastEarnedPoints > 0 ? "+${vm.lastEarnedPoints}" : "${vm.lastEarnedPoints}",
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900,
+                            color: vm.lastEarnedPoints > 0 ? Colors.green : Colors.redAccent)),
                   ),
-              ],
-            ),
-          ),
+                ),
+              ),
+          ],
         ),
-        const SizedBox(width: 12),
-        _scoreTileCompact(vm.wrongCount, Colors.redAccent, Icons.highlight_off_rounded),
+        _scoreBadge(vm.wrongCount.toString(), Colors.redAccent, Icons.cancel_rounded),
       ],
     );
   }
 
-  Widget _scoreTileCompact(int count, Color color, IconData icon) {
+  Widget _scoreBadge(String text, Color color, IconData icon) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.1), width: 1.5),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: color),
-          const SizedBox(width: 6),
-          Text("$count", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: Colors.indigo.shade900)),
+          Icon(icon, color: color, size: 16),
+          const SizedBox(width: 4),
+          Text(text, style: TextStyle(color: color, fontWeight: FontWeight.w900)),
         ],
       ),
     );
@@ -497,106 +419,95 @@ class _QuizViewState extends State<QuizView> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        title: Column(
-          children: [
-            const Icon(Icons.stars_rounded, color: Colors.amber, size: 80),
-            const SizedBox(height: 16),
-            Text("TEBRİKLER!", style: TextStyle(fontWeight: FontWeight.w900, color: Colors.indigo.shade900, fontSize: 24)),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("Kazanılan Puan", style: TextStyle(color: Colors.indigo.withOpacity(0.5), fontWeight: FontWeight.bold)),
-            Text("${vm.currentScore} XP", style: const TextStyle(fontSize: 40, fontWeight: FontWeight.w900, color: Color(0xFF6366F1))),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _resSummary(vm.correctCount, "Doğru", Colors.green),
-                const SizedBox(width: 24),
-                _resSummary(vm.wrongCount, "Yanlış", Colors.redAccent),
-              ],
-            ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                if (!widget.isReviewMode && !widget.isLearnedReview)
-                  _dialogButton("YENİ TEST", const Color(0xFF2ECC71), () {
-                    Navigator.pop(context);
-                    _startNewQuiz();
-                  }),
-                if (vm.wrongWords.isNotEmpty)
-                  TextButton(
-                    onPressed: () {
-                      List<WordModel> retryList = List.from(vm.wrongWords);
-                      Navigator.pop(context);
-                      _startRetryQuiz(retryList);
-                    },
-                    child: const Text("YANLIŞLARI TEKRAR ET", style: TextStyle(fontWeight: FontWeight.w900, color: Colors.redAccent)),
-                  ),
-                _dialogButton("ANA SAYFA", const Color(0xFF6366F1), () {
+      builder: (context) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.emoji_events_rounded, color: Colors.amber, size: 70),
+              const SizedBox(height: 16),
+              const Text("HARİKA İŞ!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
+              const SizedBox(height: 24),
+              Text("${vm.currentScore} XP KAZANDIN", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF6366F1))),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _resDetail(vm.correctCount, "Doğru", Colors.green),
+                  _resDetail(vm.wrongCount, "Yanlış", Colors.redAccent),
+                ],
+              ),
+              const SizedBox(height: 32),
+              if (!widget.isReviewMode && !widget.isLearnedReview)
+                _dialogBtn("YENİ TEST", const Color(0xFF2ECC71), () { Navigator.pop(context); _startNewQuiz(); }),
+              if (vm.wrongWords.isNotEmpty)
+                _dialogBtn("YANLIŞLARI TEKRAR ET", Colors.redAccent, () {
+                  List<WordModel> retryList = List.from(vm.wrongWords);
                   Navigator.pop(context);
-                  Navigator.pop(context);
+                  _startRetryQuiz(retryList);
                 }),
-              ],
-            ),
+              _dialogBtn("ANA SAYFA", const Color(0xFF6366F1), () { Navigator.pop(context); Navigator.pop(context); }),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  Widget _resSummary(int val, String label, Color color) {
-    return Column(
-      children: [
-        Text("$val", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: color)),
-        Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black38)),
-      ],
-    );
+  Widget _resDetail(int val, String label, Color color) {
+    return Column(children: [
+      Text("$val", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: color)),
+      Text(label, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black38, fontSize: 12)),
+    ]);
   }
 
-  Widget _dialogButton(String label, Color color, VoidCallback onTap) {
+  Widget _dialogBtn(String label, Color color, VoidCallback onTap, {Color txtColor = Colors.white}) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 8),
-      height: 54,
+      margin: const EdgeInsets.only(bottom: 10),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(backgroundColor: color, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), elevation: 0),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color, elevation: 0,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        ),
         onPressed: onTap,
-        child: Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
+        child: Text(label, style: TextStyle(color: txtColor, fontWeight: FontWeight.w900)),
       ),
     );
   }
 
   void _startNewQuiz() {
     final vm = context.read<QuizViewModel>();
+    // ✅ Yeni test öncesi reklamı tekrar yükle ve rotayı temizle
+    AdMobService.loadInterstitialAd();
     List<WordModel> newList = vm.generateQuizList();
-    setState(() {
-      selectedOption = null;
-      isChecking = false;
-      showScorePop = false;
-    });
+    setState(() { selectedOption = null; isChecking = false; showScorePop = false; });
     vm.resetQuiz();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QuizView(quizList: newList)));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => QuizView(quizList: newList),
+          settings: const RouteSettings(name: 'QuizView'), // Banner takibi için gerekli
+        )
+    );
   }
 
   void _startRetryQuiz(List<WordModel> retryList) {
     final vm = context.read<QuizViewModel>();
-    setState(() {
-      selectedOption = null;
-      isChecking = false;
-      showScorePop = false;
-    });
+    // ✅ Tekrar testi öncesi reklamı tekrar yükle
+    AdMobService.loadInterstitialAd();
+    setState(() { selectedOption = null; isChecking = false; showScorePop = false; });
     vm.resetQuiz();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QuizView(quizList: retryList, isReviewMode: true)));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => QuizView(quizList: retryList, isReviewMode: true),
+          settings: const RouteSettings(name: 'QuizView'),
+        )
+    );
   }
 }

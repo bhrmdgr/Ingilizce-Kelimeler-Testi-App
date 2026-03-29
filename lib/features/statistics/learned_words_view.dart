@@ -23,7 +23,7 @@ class _LearnedWordsViewState extends State<LearnedWordsView> {
   void initState() {
     super.initState();
     // ✅ Stream'i burada başlatıyoruz ki setState olunca sıfırlanmasın
-    _learnedWordsStream = StatsService().getLearnedWords();
+    _learnedWordsStream = StatsService().getLearnedWords().asBroadcastStream();
   }
 
   @override

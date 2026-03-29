@@ -421,13 +421,14 @@ class _HomeViewState extends State<HomeView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildHeader(data, rank),
-                const SizedBox(height: 25),
+                const SizedBox(height: 15),
 
                 Text(
                   "İstatistiklerin",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.blueGrey.shade900),
                 ),
-                const SizedBox(height: 15),                ScoreCardWidget(
+                const SizedBox(height: 15),
+                ScoreCardWidget(
                   userData: data,
                   onShowLeaderboard: () async {
                     if (data.isPremium) {
@@ -444,13 +445,14 @@ class _HomeViewState extends State<HomeView> {
                   },
                 ),
 
-                const SizedBox(height: 25),
+                const SizedBox(height: 15),
                 _buildDailyGoalCard(data),
+                const SizedBox(height: 15),
+                _buildStartButton(),
                 const SizedBox(height: 15),
                 _buildStatGrid(data),
                 const SizedBox(height: 30),
-                _buildStartButton(),
-                const SizedBox(height: 20),
+
               ],
             ),
           ),

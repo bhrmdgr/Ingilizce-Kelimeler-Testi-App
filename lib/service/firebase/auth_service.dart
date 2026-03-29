@@ -56,69 +56,26 @@ class AuthService {
     await _auth.signOut();
   }
 
-  // --- TELEFON DOĞRULAMA GÜNCELLEMELERİ ---
+  // --- TELEFON DOĞRULAMA GÜNCELLEMELERİ (APPLE REDDİ SONRASI PASİFİZE EDİLDİ) ---
 
-  // 5. Telefon Numarasına Kod Gönder
+  @Deprecated("Apple Guideline 5.1.1 uyarınca telefon zorunluluğu kaldırıldı.")
   Future<void> verifyPhoneNumber({
     required String phoneNumber,
     required Function(String verificationId) codeSent,
     required Function(FirebaseAuthException e) verificationFailed,
   }) async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      timeout: const Duration(seconds: 60), // Zaman aşımı eklemek iyidir
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        // Android'de bazen SMS'i otomatik okur ve direkt giriş yapar
-        await _auth.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        // Burası çok kritik! Hatayı debug console'da görmeni sağlar.
-        debugPrint("FIREBASE AUTH HATASI: ${e.code} - ${e.message}");
-        verificationFailed(e);
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        codeSent(verificationId);
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        // Otomatik kod okuma zaman aşımına uğradığında
-      },
-    );
+    // Bu metod artık kullanılmıyor
   }
 
-  // 6. Telefon Kodu ve Email/Şifre ile Kaydı Tamamla
+  @Deprecated("signUpWithEmail metodunu kullanın.")
   Future<UserCredential?> signUpWithPhoneAndEmail({
     required String email,
     required String password,
     required String verificationId,
     required String smsCode,
   }) async {
-    try {
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: smsCode,
-      );
-
-      // Önce email/şifre ile kullanıcıyı oluştur
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      // ✅ KRİTİK GÜNCELLEME: Oluşturulan kullanıcıya telefon credential'ını bağla
-      // Eğer bu işlem başarısız olursa (örn: numara başka hesapta), catch bloğuna düşer.
-      if (userCredential.user != null) {
-        await userCredential.user!.linkWithCredential(credential);
-      }
-
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      // ✅ Hatayı logla ve ViewModel'in yakalaması için yukarı fırlat (rethrow)
-      _handleAuthError(e);
-      rethrow;
-    } catch (e) {
-      debugPrint("Beklenmedik Kayıt Hatası: $e");
-      rethrow;
-    }
+    // Bu metod artık kullanılmıyor, signUpWithEmail'e yönlendirilebilir veya boş bırakılabilir.
+    return null;
   }
 
   // --- DATABASE GÜNCELLEMELERİ ---
@@ -126,7 +83,7 @@ class AuthService {
   // 7. Normal Kullanıcı Verilerini 'users' Koleksiyonuna Kaydetme
   Future<void> saveUserToDatabase({
     required String uid,
-    required String fullName, // Eklendi
+    required String fullName,
     required String username,
     required String email,
     String? phoneNumber,
@@ -134,10 +91,10 @@ class AuthService {
     try {
       await _firestore.collection('users').doc(uid).set({
         'uid': uid,
-        'fullName': fullName, // Firestore alanı
+        'fullName': fullName,
         'username': username,
         'email': email,
-        'phoneNumber': phoneNumber ?? '',
+        'phoneNumber': phoneNumber ?? '', // Artık boş string olarak saklanacak
         'userType': 'free',
         'createdAt': FieldValue.serverTimestamp(),
         'level': 'A1',
@@ -159,7 +116,7 @@ class AuthService {
       await _firestore.collection('guestUsers').doc(uid).set({
         'uid': uid,
         'username': username,
-        'userType': 'guest', // Kullanıcı tipi eklendi
+        'userType': 'guest',
         'createdAt': FieldValue.serverTimestamp(),
         'isGuest': true,
       });
@@ -188,15 +145,6 @@ class AuthService {
       case 'weak-password':
         message = "Şifre çok zayıf.";
         break;
-      case 'invalid-verification-code':
-        message = "Girdiğiniz SMS kodu hatalı.";
-        break;
-      case 'invalid-phone-number':
-        message = "Geçersiz bir telefon numarası girdiniz.";
-        break;
-      case 'credential-already-in-use':
-        message = "Bu telefon numarası zaten başka bir hesaba bağlı.";
-        break;
       default:
         message = "Bir hata oluştu: ${e.message}";
     }
@@ -214,7 +162,6 @@ class AuthService {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      // Hatayı yukarı fırlatıyoruz ki ViewModel yakalayıp kullanıcıya göstersin
       throw Exception(e.toString());
     }
   }

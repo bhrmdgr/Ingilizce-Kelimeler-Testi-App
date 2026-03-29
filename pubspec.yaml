@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+4
+version: 1.0.5+10
 
 environment:
   sdk: ^3.10.4
@@ -27,13 +27,17 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
+# pubspec.yaml içindeki ilgili bölüm
 flutter_launcher_icons:
+  # Android için hem eski (legacy) hem yeni (adaptive) ayarlar
   android: "launcher_icon"
+  image_path_android: "assets/images/app-icon.png" # Eski Android sürümleri için (şeffaf kalabilir)
+  adaptive_icon_background: "#F0F2FF" # Android arka plan rengin
+  adaptive_icon_foreground: "assets/images/app-icon.png" # Android ön plan (şeffaf logon)
+
+  # iOS için özel, transparanlık içermeyen ikon ayarı
   ios: true
-  image_path: "assets/images/app-icon.png"
-  min_sdk_android: 21 # android min sdk ile aynı olmalı
-  adaptive_icon_background: "#F0F2FF" # İkonunun arka plan rengine göre değiştir
-  adaptive_icon_foreground: "assets/images/app-icon.png"
+  image_path_ios: "assets/images/app-icon-ios.png" # Arkası dolu, Alpha kanalsız yeni dosyan
 
 dependencies:
   flutter:

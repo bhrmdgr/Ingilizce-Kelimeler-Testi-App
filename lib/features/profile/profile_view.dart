@@ -89,6 +89,7 @@ class _ProfileViewState extends State<ProfileView> {
                       onTap: () => _showEmailEditDialog(user?['email']),
                       theme: theme,
                     ),
+                    /*
                     _buildEditableItem(
                       icon: Icons.phone_iphone_rounded,
                       label: "Telefon",
@@ -96,6 +97,7 @@ class _ProfileViewState extends State<ProfileView> {
                       onTap: () => _showEditDialog("phoneNumber", "Telefon", user?['phoneNumber']),
                       theme: theme,
                     ),
+                     */
                   ],
                   theme,
                 ),

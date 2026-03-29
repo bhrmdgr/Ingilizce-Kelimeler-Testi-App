@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math'; // Random için eklendi
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ingilizce_kelime_testi/features/quiz/quiz_model.dart';
@@ -25,7 +25,8 @@ class QuizViewModel extends ChangeNotifier {
   QuizQuestionMode selectedQuestionMode = QuizQuestionMode.enToTr; // ✅ Varsayılan mod
 
   // --- Reklam Sayaçları ---
-  int _completedQuizCount = 0;
+  // ✅ Soru bazlı takip için yeni sayaç
+  int _totalQuestionCounter = 0;
 
   final List<int> questionCounts = [10, 20, 30, 40];
   final List<String> levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
@@ -44,14 +45,24 @@ class QuizViewModel extends ChangeNotifier {
   int comboCount = 0;
   int lastEarnedPoints = 0;
 
-  // ✅ Reklam Gösterilme Şartlarını Kontrol Eder
+  // QuizViewModel.dart içinde
+
+  // ✅ Güncellenen Reklam Mantığı
   bool shouldShowInterstitialAd(int currentQuizLength) {
-    _completedQuizCount++;
-    if (currentQuizLength >= 20) return true;
-    if (_completedQuizCount >= 2) {
-      _completedQuizCount = 0;
+    _totalQuestionCounter += currentQuizLength;
+
+    // ŞART: Toplam çözülen soru sayısı 30 veya üzerindeyse reklam göster.
+    // Bu sayede:
+    // - 30 veya 40 soruluk testte (Hemen ilk test sonu)
+    // - 20 soruluk testlerde (2. test sonu - toplam 40 olur)
+    // - 10 soruluk testlerde (3. test sonu - toplam 30 olur)
+    // reklam tetiklenir.
+    if (_totalQuestionCounter >= 30) {
+      _totalQuestionCounter = 0; // Reklam gösterileceği için sayacı sıfırla
       return true;
     }
+
+    // Şart sağlanmadıysa reklam gösterme
     return false;
   }
 

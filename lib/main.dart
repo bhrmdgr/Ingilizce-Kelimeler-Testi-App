@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_app_check/firebase_app_check.dart'; // ✅ EKLENDİ
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:ingilizce_kelime_testi/features/auth/signIn/sign_in_view_model.dart';
 import 'package:ingilizce_kelime_testi/features/auth/signUp/sign_up_view_model.dart';
 import 'package:ingilizce_kelime_testi/features/help_support/help_view_model.dart';
@@ -19,10 +19,10 @@ import 'package:ingilizce_kelime_testi/features/auth/signIn/sign_in_view.dart';
 import 'package:ingilizce_kelime_testi/service/admob/admob_service.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'dart:io'; // ✅ İzinler için eklendi
-import 'package:app_tracking_transparency/app_tracking_transparency.dart'; // ✅ İzinler için eklendi
+import 'dart:io';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:flutter/foundation.dart'; // ✅ kDebugMode için eklendi
 
-// ✅ YENİ: Background mesaj handler — herhangi bir class DIŞINDA, en üstte olmalı
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -36,22 +36,19 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // ✅ APP CHECK: Debug token'ı zorla loglara yazdırmak için
   if (Platform.isIOS || Platform.isAndroid) {
     await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
   }
 
-  // ✅ APP CHECK AKTİVASYONU - TEST MODU
+  // ✅ APP CHECK AKTİVASYONU - DİNAMİK MOD (DEBUG VE RELEASE İÇİN)
   await FirebaseAppCheck.instance.activate(
     webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
-    androidProvider: AndroidProvider.debug,
-    appleProvider: AppleProvider.debug,
+    androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
+    appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.deviceCheck,
   );
 
-  // ✅ ADMOB SDK BAŞLATILIYOR
   await AdMobService.initialize();
 
-  // ✅ YENİ: Background handler kayıt ediliyor
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(
@@ -86,7 +83,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AuthCheck extends StatefulWidget { // ✅ İzinleri başlatmak için StatefulWidget yapıldı
+class AuthCheck extends StatefulWidget {
   const AuthCheck({super.key});
 
   @override
@@ -98,20 +95,16 @@ class _AuthCheckState extends State<AuthCheck> {
   @override
   void initState() {
     super.initState();
-    // ✅ Uygulama açıldığında izinleri iste
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _requestPermissions();
     });
   }
 
-  // ✅ iOS İzin Yönetimi (Bildirim + AdMob Tracking)
   Future<void> _requestPermissions() async {
     if (Platform.isIOS) {
-      // 1. AdMob ATT İzni
-      await Future.delayed(const Duration(seconds: 1)); // Pencerenin sağlıklı açılması için bekleme
+      await Future.delayed(const Duration(seconds: 1));
       await AppTrackingTransparency.requestTrackingAuthorization();
 
-      // 2. Bildirim İzni
       await FirebaseMessaging.instance.requestPermission(
         alert: true,
         badge: true,
@@ -132,6 +125,11 @@ class _AuthCheckState extends State<AuthCheck> {
         final user = snapshot.data;
 
         if (user != null) {
+          // ✅ Misafir kullanıcılar 'users' koleksiyonunda olmayacağı için Firestore sorgusunu sadece normal kullanıcılar için yapıyoruz
+          if (user.isAnonymous) {
+            return const HomeView();
+          }
+
           return FutureBuilder<DocumentSnapshot>(
             future: FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
             builder: (context, userDoc) {

@@ -9,8 +9,10 @@ class UserService {
   Future<void> updateDailyGoal(String uid, int goal, bool isGuest) async {
     final prefs = await SharedPreferences.getInstance();
     if (isGuest) {
+      // ✅ Misafir kullanıcı için yerel hafızaya kaydet
       await prefs.setInt('daily_goal', goal);
     } else {
+      // Kayıtlı kullanıcı için hem Firestore hem yerel hafızayı güncelle
       await _firestore.collection('users').doc(uid).set(
           {'daily_goal': goal}, SetOptions(merge: true));
       await prefs.setInt('daily_goal', goal);
@@ -25,24 +27,19 @@ class UserService {
       await _firestore.collection('users').doc(uid).update({
         'avatarPath': avatarPath,
       });
+      // Senkronizasyon için yereli de güncelliyoruz
+      await prefs.setString('avatarPath', avatarPath);
     }
   }
 
-  // service/firebase/user_service.dart
-
   Future<HomeModel?> getFirestoreUser(String uid) async {
     try {
-      // ✅ Bugüne ait tarih ID'sini oluşturuyoruz (StatsService ile aynı format)
       final now = DateTime.now();
       final dateId = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
 
-      // 1. Ana kullanıcı dökümanı
       final userDoc = await _firestore.collection('users').doc(uid).get();
-
-      // 2. BUGÜNE ait istatistik dökümanı (Günlük hedef takibi için)
       final dailyDoc = await _firestore.collection('users').doc(uid).collection('daily_series').doc(dateId).get();
 
-      // Genel sayımlar (Öğrenilen/Yanlış) - İstatistik kartları için
       final learnedQuery = await _firestore.collection('users').doc(uid).collection('learned_words').count().get();
       final wrongQuery = await _firestore.collection('users').doc(uid).collection('wrong_words').count().get();
 
@@ -53,8 +50,6 @@ class UserService {
         int total = learned + wrong;
         int accuracy = total > 0 ? ((learned / total) * 100).toInt() : 0;
 
-        // ✅ GÜNLÜK HEDEF DÜZELTMESİ:
-        // Eğer bugün hiç quiz yapılmamışsa dailyDoc olmayabilir, bu durumda ilerleme 0'dır.
         int dailyCompleted = 0;
         if (dailyDoc.exists) {
           dailyCompleted = dailyDoc.data()?['correct_answers'] ?? 0;
@@ -65,9 +60,9 @@ class UserService {
           avatarPath: data['avatarPath'],
           dailyStreak: data['streak'] ?? 0,
           accuracy: accuracy,
-          totalXP: (data['score'] ?? 0).toDouble(), // StatsService'deki 'score' alanı
-          weeklyScore: (data['weekly_score'] ?? 0).toDouble(), // ✅ YENİ: Haftalık Skor eklendi
-          completedTasks: dailyCompleted, // ✅ ARTIK TOPLAM DEĞİL, GÜNLÜK VERİ
+          totalXP: (data['score'] ?? 0).toDouble(),
+          weeklyScore: (data['weekly_score'] ?? 0).toDouble(),
+          completedTasks: dailyCompleted,
           dailyGoal: data['daily_goal'] ?? 0,
           learnedWordsCount: learned,
           wrongWordsCount: wrong,
@@ -84,8 +79,6 @@ class UserService {
 
   Future<HomeModel> getLocalGuest() async {
     final prefs = await SharedPreferences.getInstance();
-
-    // ✅ Misafir için de tarih desteği (Opsiyonel ama hata vermemesi için)
     String? expiryStr = prefs.getString('premiumUntil');
 
     return HomeModel(
@@ -94,13 +87,13 @@ class UserService {
       dailyStreak: prefs.getInt('guest_streak') ?? 0,
       accuracy: prefs.getInt('guest_accuracy') ?? 0,
       totalXP: (prefs.getInt('guest_score') ?? 0).toDouble(),
-      weeklyScore: (prefs.getInt('guest_score') ?? 0).toDouble(), // ✅ Misafir için haftalık skor toplam skorla aynı (basitlik için)
+      weeklyScore: (prefs.getInt('guest_score') ?? 0).toDouble(),
       completedTasks: prefs.getInt('guest_completed_tasks') ?? 0,
-      dailyGoal: prefs.getInt('daily_goal') ?? 10,
+      // ✅ GÜNCELLEME: Varsayılan değeri 0 yaptık ki HomeView'da seçim diyaloğu tetiklensin
+      dailyGoal: prefs.getInt('daily_goal') ?? 0,
       learnedWordsCount: prefs.getStringList('guest_learned_words')?.length ?? 0,
       wrongWordsCount: prefs.getStringList('guest_wrong_words')?.length ?? 0,
       isPremium: prefs.getBool('isPremium') ?? false,
-      // ✅ Misafir için alanlar:
       premiumUntil: expiryStr != null ? DateTime.tryParse(expiryStr) : null,
       isAutoRenew: prefs.getBool('isAutoRenew') ?? true,
     );

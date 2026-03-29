@@ -9,110 +9,83 @@ class SignUpViewModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  // Telefon doğrulama süreci için gerekli ID
-  String? _verificationId;
-  bool get isCodeSent => _verificationId != null;
-
   void _setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
   }
 
-  // 1. ADIM: Doğrulama Kodu Gönder
-  Future<bool> sendVerificationCode({
+  // Yeni Kayıt Metodu: Telefon ve SMS gerektirmez
+  Future<bool> signUp({
+    required String fullName,
+    required String username,
     required String email,
-    required String phone,
+    required String password,
+    required String confirmPassword,
   }) async {
-    // Email Validasyonu
+    // Validasyonlar
     if (!EmailValidator.validate(email)) {
       debugPrint("Geçersiz e-posta formatı");
       return false;
     }
 
-    if (phone.isEmpty) {
-      debugPrint("Telefon numarası boş olamaz");
-      return false;
-    }
-
-    _setLoading(true);
-    try {
-      await _authService.verifyPhoneNumber(
-        phoneNumber: phone,
-        codeSent: (id) {
-          _verificationId = id;
-          _setLoading(false);
-        },
-        verificationFailed: (e) {
-          _setLoading(false);
-          debugPrint("Telefon doğrulama hatası: ${e.message}");
-        },
-      );
-      return true;
-    } catch (e) {
-      _setLoading(false);
-      debugPrint("verifyPhoneNumber beklenmedik hata: $e");
-      return false;
-    }
-  }
-
-  // 2. ADIM: Kaydı Tamamla (Telefon Kodu + Email/Şifre + Database Kaydı)
-  Future<bool> completeSignUp({
-    required String fullName, // İsim Soyisim eklendi
-    required String username,
-    required String email,
-    required String phone, // Database kaydı için gerekli
-    required String password,
-    required String confirmPassword,
-    required String smsCode,
-  }) async {
-    // Basit Doğrulamalar
     if (password != confirmPassword) {
       debugPrint("Şifreler eşleşmiyor");
       return false;
     }
 
-    if (_verificationId == null) {
-      debugPrint("Önce doğrulama kodu gönderilmelidir");
+    if (username.isEmpty || fullName.isEmpty) {
+      debugPrint("Lütfen tüm alanları doldurun");
       return false;
     }
 
     _setLoading(true);
 
     try {
-      // Firebase Kayıt ve Telefon Bağlama İşlemi
-      final result = await _authService.signUpWithPhoneAndEmail(
-        email: email,
-        password: password,
-        verificationId: _verificationId!,
-        smsCode: smsCode,
-      );
+      // AuthService içindeki positional parameter yapısına uygun çağrı
+      final result = await _authService.signUpWithEmail(email, password);
 
-      // ✅ Eğer kayıt başarılıysa ve kullanıcı oluşturulmuşsa devam et
       if (result != null && result.user != null) {
-        // --- DATABASE GÜNCELLEMESİ ---
+        // DATABASE GÜNCELLEMESİ
         await _authService.saveUserToDatabase(
           uid: result.user!.uid,
-          fullName: fullName, // AuthService'e iletiliyor
+          fullName: fullName,
           username: username,
           email: email,
-          phoneNumber: phone,
+          phoneNumber: "", // Telefon artık boş
         );
 
-        // Yerel hafızaya kullanıcı tipini kaydet
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('user_type', 'free');
-        await prefs.setString('full_name', fullName); // İsim yerelde de saklanabilir
+        await prefs.setString('full_name', fullName);
 
         _setLoading(false);
         return true;
       }
     } catch (e) {
-      // ✅ BURASI KRİTİK: Hata fırlatılırsa loading'i burada kapatıyoruz
-      debugPrint("completeSignUp hatası yakalandı: $e");
+      debugPrint("signUp hatası: $e");
     }
 
-    // Eğer buraya ulaştıysa bir şeyler ters gitmiştir
     _setLoading(false);
     return false;
   }
+
+  @Deprecated("Telefon doğrulaması kaldırıldı, signUp metodunu kullanın.")
+  Future<bool> sendVerificationCode({required String email, required String phone}) async => true;
+
+  @Deprecated("Telefon doğrulaması kaldırıldı, signUp metodunu kullanın.")
+  Future<bool> completeSignUp({
+    required String fullName,
+    required String username,
+    required String email,
+    required String phone,
+    required String password,
+    required String confirmPassword,
+    required String smsCode,
+  }) async => await signUp(
+    fullName: fullName,
+    username: username,
+    email: email,
+    password: password,
+    confirmPassword: confirmPassword,
+  );
 }

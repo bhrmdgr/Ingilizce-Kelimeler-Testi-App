@@ -5,6 +5,7 @@ import 'package:ingilizce_kelime_testi/features/home/home_model.dart';
 import 'package:ingilizce_kelime_testi/features/home/home_view_model.dart';
 import 'package:ingilizce_kelime_testi/helpers/rank_manager/rank_manager.dart';
 import 'package:ingilizce_kelime_testi/helpers/routers/routers.dart';
+import 'package:ingilizce_kelime_testi/features/home/widgets/rank_journey_view.dart';
 
 class ScoreCardWidget extends StatelessWidget {
   final HomeModel userData;
@@ -18,117 +19,107 @@ class ScoreCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Rütbe bilgilerini alıyoruz
-    final rank = RankManager.getRank(userData.totalXP.toInt());
-    final Color rankColor = rank['color']; // Rütbenin ana rengi (Örn: Altın, Bronz, Safir vb.)
     final int currentXP = userData.totalXP.toInt();
-    final int nextGoal = rank['next'];
+    final allRanks = RankManager.getAllRanks();
+
+    int currentIndex = 0;
+    for (int i = 0; i < allRanks.length; i++) {
+      if (currentXP >= allRanks[i]['min']) currentIndex = i;
+    }
+
+    final currentRank = allRanks[currentIndex];
+    final Color rankColor = currentRank['color'];
+    final int nextGoal = (currentIndex + 1 < allRanks.length) ? allRanks[currentIndex + 1]['min'] : 55000;
     final double progress = (currentXP / nextGoal).clamp(0.0, 1.0);
 
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        // ARKA PLAN ARTIK DİNAMİK: Rütbe rengine göre gradyan oluşturur
+        borderRadius: BorderRadius.circular(35),
         gradient: LinearGradient(
-          colors: [
-            rankColor.withOpacity(0.85),
-            rankColor.withBlue(rankColor.blue + 30).withOpacity(0.95),
-          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
+          colors: [
+            rankColor.withOpacity(0.9),
+            rankColor.withBlue(200).withOpacity(1.0),
+          ],
         ),
-        borderRadius: BorderRadius.circular(35),
         boxShadow: [
           BoxShadow(
-            color: rankColor.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          )
+            color: rankColor.withOpacity(0.4),
+            blurRadius: 25,
+            offset: const Offset(0, 12),
+          ),
         ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(35),
         child: Stack(
           children: [
-            // Dekoratif arka plan dairesi
+            // Dekoratif arka plan ışığı
             Positioned(
-              right: -30,
-              top: -30,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundColor: Colors.white.withOpacity(0.07),
-              ),
+              top: -50,
+              left: -50,
+              child: Container(width: 150, height: 150, decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withOpacity(0.1))),
             ),
 
             Padding(
-              padding: const EdgeInsets.all(25.0),
+              padding: const EdgeInsets.all(22.0),
               child: Column(
                 children: [
-                  // --- ÜST KISIM: Rütbe ve İlerleme ---
-                  Row(
-                    children: [
-                      _buildRankBadge(rank),
-                      const SizedBox(width: 15),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              rank['title'].toUpperCase(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 18,
-                                letterSpacing: 1.5,
-                                shadows: [Shadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 2))],
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: LinearProgressIndicator(
-                                value: progress,
-                                minHeight: 8,
-                                backgroundColor: Colors.black.withOpacity(0.1),
-                                valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              "$currentXP / $nextGoal XP",
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
+                  // --- 1. KATMAN: RÜTBE SERÜVENİ (TIMELINE) ---
+                  GestureDetector(
+                    onTap: () => _showRankJourney(context, currentXP),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // ÖNCEKİ RANK VEYA BAŞLANGIÇ
+                        _buildTimelineNode(
+                          currentIndex > 0 ? allRanks[currentIndex - 1]['icon'] : "🚀",
+                          currentIndex > 0 ? "TAMAMLANDI" : "BAŞLANGIÇ",
+                          isPassed: currentIndex > 0,
+                          isStart: currentIndex == 0,
                         ),
-                      ),
-                    ],
-                  ),
 
-                  const SizedBox(height: 30),
+                        // MEVCUT RANK (MERKEZ)
+                        _buildMainRankNode(currentRank, progress),
 
-                  // --- ORTA KISIM: Renkli İkonlu Skorlar ---
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _buildScoreItem("HAFTALIK", "${userData.weeklyScore.toInt()}",
-                          Icons.calendar_month_rounded, Colors.lightBlueAccent),
-                      _buildDivider(),
-                      _buildScoreItem("TOPLAM", "${userData.totalXP.toInt()}",
-                          Icons.emoji_events_rounded, Colors.amber), // Kupa Altın Rengi
-                      _buildDivider(),
-                      _buildScoreItem("SERİ", "${userData.dailyStreak}",
-                          Icons.local_fire_department_rounded, Colors.orangeAccent), // Ateş Turuncu
-                    ],
+                        // SONRAKİ RANK
+                        _buildTimelineNode(
+                          currentIndex + 1 < allRanks.length ? allRanks[currentIndex + 1]['icon'] : "🏆",
+                          "${nextGoal - currentXP} XP KALDI",
+                          isLocked: true,
+                        ),
+                      ],
+                    ),
                   ),
 
                   const SizedBox(height: 25),
 
-                  // --- ALT KISIM: Arena Butonu ---
-                  _buildArenaAccessButton(context, rankColor),
+                  // --- 2. KATMAN: İSTATİSTİK PANELİ ---
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(25),
+                      border: Border.all(color: Colors.white10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildStatBox("HAFTALIK", "${userData.weeklyScore.toInt()}", Icons.bolt_rounded, Colors.cyanAccent),
+                        _buildVerticalDivider(),
+                        _buildStatBox("TOPLAM", "${userData.totalXP.toInt()}", Icons.emoji_events_rounded, Colors.amberAccent),
+                        _buildVerticalDivider(),
+                        _buildStatBox("SERİ", "${userData.dailyStreak}", Icons.whatshot_rounded, Colors.orangeAccent),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // --- 3. KATMAN: ARENA ERİŞİMİ ---
+                  _buildArenaButton(context),
                 ],
               ),
             ),
@@ -138,201 +129,142 @@ class ScoreCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildRankBadge(Map<String, dynamic> rank) {
-    return Container(
-      height: 65,
-      width: 65,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.white.withOpacity(0.5), width: 2),
-      ),
-      child: Center(
-        child: Text(rank['icon'], style: const TextStyle(fontSize: 32)),
-      ),
-    );
-  }
-
-  Widget _buildScoreItem(String label, String value, IconData icon, Color iconColor) {
+  Widget _buildTimelineNode(String icon, String label, {bool isLocked = false, bool isPassed = false, bool isStart = false}) {
     return Column(
       children: [
-        // İkon artık kendi rengine sahip
-        Icon(icon, color: iconColor, size: 24),
-        const SizedBox(height: 8),
-        Text(
-          value,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.w900,
-          ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              height: 50, width: 50,
+              decoration: BoxDecoration(
+                color: (isPassed || isStart) ? Colors.white24 : Colors.black26,
+                shape: BoxShape.circle,
+                border: Border.all(color: (isPassed || isStart) ? Colors.white38 : Colors.white10),
+              ),
+              child: Center(
+                child: Opacity(
+                  opacity: isLocked ? 0.3 : 0.8,
+                  child: Text(icon, style: const TextStyle(fontSize: 22)),
+                ),
+              ),
+            ),
+            if (isLocked) const Icon(Icons.lock_outline_rounded, color: Colors.white, size: 18),
+            if (isPassed)
+              const Positioned(
+                right: 0, bottom: 0,
+                child: CircleAvatar(radius: 8, backgroundColor: Colors.greenAccent, child: Icon(Icons.check, size: 10, color: Colors.black)),
+              ),
+          ],
         ),
+        const SizedBox(height: 6),
         Text(
           label,
           style: TextStyle(
-            color: Colors.white.withOpacity(0.7),
-            fontSize: 9,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1,
+            color: (isLocked) ? Colors.white54 : Colors.white,
+            fontSize: 8,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 0.5,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildDivider() {
-    return Container(
-      height: 30,
-      width: 1,
-      color: Colors.white.withOpacity(0.2),
+  Widget _buildMainRankNode(Map<String, dynamic> rank, double progress) {
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            SizedBox(
+              height: 85, width: 85,
+              child: CircularProgressIndicator(
+                value: progress,
+                strokeWidth: 8,
+                backgroundColor: Colors.white10,
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+            Container(
+              height: 65, width: 65,
+              decoration: const BoxDecoration(color: Colors.white24, shape: BoxShape.circle, boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)]),
+              child: Center(child: Text(rank['icon'], style: const TextStyle(fontSize: 38))),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(rank['title'].toUpperCase(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 1.2)),
+      ],
     );
   }
 
-  Widget _buildFeatureRow(IconData icon, String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.amber.withOpacity(0.8), size: 18),
-          const SizedBox(width: 8),
-          Text(text, style: const TextStyle(color: Colors.white, fontSize: 13)),
-        ],
+  Widget _buildStatBox(String label, String value, IconData icon, Color color) {
+    return Column(
+      children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(height: 5),
+        Text(value, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900)),
+        Text(label, style: TextStyle(color: Colors.white60, fontSize: 8, fontWeight: FontWeight.bold)),
+      ],
+    );
+  }
+
+  Widget _buildVerticalDivider() => Container(height: 30, width: 1, color: Colors.white10);
+
+  Widget _buildArenaButton(BuildContext context) {
+    final userRank = context.watch<HomeViewModel>().userRank;
+    final bool isPremium = userData.isPremium;
+
+    return InkWell(
+      onTap: () => isPremium ? Navigator.pushNamed(context, AppRouters.leaderboard, arguments: userData) : _showPremiumAlert(context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        decoration: BoxDecoration(
+          color: isPremium ? Colors.white.withOpacity(0.15) : Colors.black26,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: isPremium ? Colors.amber.withOpacity(0.6) : Colors.white10, width: 1.5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(isPremium ? Icons.stars_rounded : Icons.lock_person_rounded, color: Colors.amber, size: 20),
+            const SizedBox(width: 12),
+            Text("ARENA SIRALAMASI", style: TextStyle(color: Colors.white.withOpacity(0.9), fontWeight: FontWeight.w900, fontSize: 11, letterSpacing: 0.5)),
+            if (isPremium && userRank != null) ...[
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: Colors.amber, borderRadius: BorderRadius.circular(10)),
+                child: Text("#$userRank", style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12)),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
 
-  // ✅ PREMIUM ALERT METODU EKLENDİ
+  void _showRankJourney(BuildContext context, int xp) {
+    showModalBottomSheet(context: context, isScrollControlled: true, backgroundColor: Colors.transparent, builder: (context) => FractionallySizedBox(heightFactor: 0.85, child: RankJourneyView(userXP: xp)));
+  }
+
   void _showPremiumAlert(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xFF1E293B),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-        title: const Row(
-          children: [
-            Icon(Icons.workspace_premium_rounded, color: Colors.amber, size: 28),
-            SizedBox(width: 10),
-            Text(
-              "Arena'ya Katıl",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Dünya sıralamasındaki yerini merak mı ediyorsun?",
-              style: TextStyle(color: Colors.white70, fontSize: 16),
-            ),
-            const SizedBox(height: 15),
-            _buildFeatureRow(Icons.leaderboard_rounded, "Gerçek zamanlı sıralama"),
-            _buildFeatureRow(Icons.military_tech_rounded, "Ligindeki rakiplerini gör"),
-            _buildFeatureRow(Icons.ads_click_rounded, "Reklamsız deneyim"),
-          ],
-        ),
+        title: const Text("Arena'ya Giriş", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        content: const Text("Dünya sıralamasında yerini al ve diğerleriyle yarış!", style: TextStyle(color: Colors.white70)),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Daha Sonra", style: TextStyle(color: Colors.white38)),
-          ),
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text("Kapat", style: TextStyle(color: Colors.white38))),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber,
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, AppRouters.premium);
-            },
-            child: const Text("PREMIUM'A GEÇ", style: TextStyle(fontWeight: FontWeight.bold)),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.amber, foregroundColor: Colors.black),
+            onPressed: () { Navigator.pop(context); Navigator.pushNamed(context, AppRouters.premium); },
+            child: const Text("PREMIUM AL"),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildArenaAccessButton(BuildContext context, Color rankColor) {
-    final userRank = context.watch<HomeViewModel>().userRank;
-
-    return InkWell(
-      onTap: () {
-        if (userData.isPremium) {
-          Navigator.pushNamed(context, AppRouters.leaderboard, arguments: userData);
-        } else {
-          _showPremiumAlert(context);
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.08), // Daha premium şeffaf görünüm
-          borderRadius: BorderRadius.circular(22),
-          border: Border.all(
-            color: userData.isPremium ? Colors.amber.withOpacity(0.5) : Colors.white10,
-            width: 1.5,
-          ),
-        ),
-        child: Row(
-          children: [
-            // Sol İkon
-            Icon(
-              userData.isPremium ? Icons.stars_rounded : Icons.workspace_premium_rounded,
-              color: Colors.amber,
-              size: 22,
-            ),
-            const SizedBox(width: 12),
-
-            // Metin Alanı - Expanded kullanarak taşmayı önlüyoruz
-            Expanded(
-              child: Text(
-                "Genel Sıralamadaki Yerini Gör",
-                // textAlign: TextAlign.center, // Row içinde Expanded varken center garip durabilir, sola yaslamak daha profesyoneldir
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.9),
-                  fontWeight: FontWeight.w800,
-                  fontSize: 13, // 12 çok küçüktü, 13 ideal
-                  letterSpacing: 0.3,
-                ),
-                softWrap: true,
-                maxLines: 2, // En fazla 2 satır, kelimeyi bölmez alta atar
-              ),
-            ),
-
-            const SizedBox(width: 8),
-
-            // Sağ Taraf: Sıralama ve Ok
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (userData.isPremium && userRank != null)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.amber.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      "#$userRank",
-                      style: const TextStyle(
-                        color: Colors.amber,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: Colors.white.withOpacity(0.3),
-                  size: 14,
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

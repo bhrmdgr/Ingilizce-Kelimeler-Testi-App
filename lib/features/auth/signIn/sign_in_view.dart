@@ -383,7 +383,7 @@ class _SigninViewState extends State<SigninView> {
                     controller: _guestNameController,
                     autofocus: true,
                     decoration: InputDecoration(
-                      hintText: "Örn: Behram",
+                      hintText: "Örn: Aslan",
                       filled: true,
                       fillColor: AppTheme.backgroundColor,
                       border: OutlineInputBorder(
