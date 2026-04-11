@@ -282,3 +282,78 @@ exports.dailyGoalReminder = onSchedule(
     await Promise.all(promises);
   }
 );
+
+// ─────────────────────────────────────────────
+// 4. HAFTALIK SKOR SIFIRLAMA + ŞAMPİYONLARI KAYDETME
+// Her Pazar gecesi 23:59'da çalışır
+// ─────────────────────────────────────────────
+exports.resetWeeklyScores = onSchedule(
+  { schedule: "59 23 * * 0", timeZone: "Europe/Istanbul" },
+  async (event) => {
+    console.log("--- HAFTALIK SIFIRLAMA VE ŞAMPİYON KAYDI BAŞLADI ---");
+
+    try {
+      const db = admin.firestore();
+
+      // A) ŞAMPİYONLARI BELİRLE (Sıfırlamadan hemen önce ilk 3'ü al)
+      const topSnapshot = await db.collection("weekly_leaderboard")
+        .orderBy("weeklyScore", "desc")
+        .limit(3)
+        .get();
+
+      if (!topSnapshot.empty) {
+        const championsBatch = db.batch();
+        const championsRef = db.collection("last_week_champions");
+
+        // Önce eski şampiyonları temizle (Her hafta taze veri olması için)
+        const oldChampions = await championsRef.get();
+        oldChampions.docs.forEach(doc => championsBatch.delete(doc.ref));
+
+        // Yeni şampiyonları ekle
+        topSnapshot.docs.forEach((doc, index) => {
+          championsBatch.set(championsRef.doc(doc.id), {
+            uid: doc.id,
+            username: doc.data().username,
+            avatar: doc.data().avatar || "assets/avatars/boy-avatar-1.png",
+            score: doc.data().weeklyScore,
+            rank: index + 1,
+            savedAt: admin.firestore.FieldValue.serverTimestamp()
+          });
+        });
+        await championsBatch.commit();
+        console.log("Geçen haftanın şampiyonları başarıyla kaydedildi.");
+      }
+
+      // B) SKORLARI SIFIRLA
+      // Sadece skoru 0'dan büyük olanları çekerek kota tasarrufu yapıyoruz
+      const userSnapshot = await db.collection("users").where("weekly_score", ">", 0).get();
+      const leaderboardSnapshot = await db.collection("weekly_leaderboard").where("weeklyScore", ">", 0).get();
+
+      let batch = db.batch();
+      let count = 0;
+      const promises = [];
+
+      // Users koleksiyonundaki haftalık skorları sıfırla
+      userSnapshot.docs.forEach((doc) => {
+        batch.update(doc.ref, { weekly_score: 0 });
+        count++;
+        if (count === 500) { promises.push(batch.commit()); batch = db.batch(); count = 0; }
+      });
+
+      // Weekly Leaderboard koleksiyonundaki skorları sıfırla
+      leaderboardSnapshot.docs.forEach((doc) => {
+        batch.update(doc.ref, { weeklyScore: 0 });
+        count++;
+        if (count === 500) { promises.push(batch.commit()); batch = db.batch(); count = 0; }
+      });
+
+      if (count > 0) promises.push(batch.commit());
+      await Promise.all(promises);
+
+      console.log("Haftalık tüm skorlar sıfırlandı ve yeni haftaya hazır hale getirildi.");
+    } catch (error) {
+      console.error("Sıfırlama işlemi sırasında hata oluştu:", error);
+    }
+  }
+);
+

@@ -4,7 +4,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdMobService {
   // TEST MODU KONTROLÜ (Gerçek cihazda yayınlarken false yapmayı unutma!)
-  static const bool _isTestMode = true;
+  static const bool _isTestMode = false;
 
   // PREMIUM KONTROLÜ
   static bool isPremiumUser = false;
@@ -22,7 +22,7 @@ class AdMobService {
     if (Platform.isAndroid) {
       return 'ca-app-pub-2464210864134868/4423923448';
     } else if (Platform.isIOS) {
-      return 'ca-app-pub-2464210864134868/4990715871'; // ✅ iOS Home Banner ID
+      return 'ca-app-pub-2464210864134868/5570949197'; // ✅ iOS Home Banner ID
     }
     return '';
   }
@@ -36,7 +36,7 @@ class AdMobService {
     if (Platform.isAndroid) {
       return 'ca-app-pub-2464210864134868/1606188418';
     } else if (Platform.isIOS) {
-      return 'ca-app-pub-2464210864134868/2916184470'; // ✅ iOS Quiz Banner ID
+      return 'ca-app-pub-2464210864134868/2637664099'; // ✅ iOS Quiz Banner ID
     }
     return '';
   }
@@ -50,7 +50,7 @@ class AdMobService {
     if (Platform.isAndroid) {
       return 'ca-app-pub-2464210864134868/6658699969';
     } else if (Platform.isIOS) {
-      return 'ca-app-pub-2464210864134868/2308712217'; // ✅ iOS Geçiş Reklamı ID
+      return 'ca-app-pub-2464210864134868/1319403484'; // ✅ iOS Geçiş Reklamı ID
     }
     return '';
   }

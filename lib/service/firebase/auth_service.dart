@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ingilizce_kelime_testi/service/firebase/notification_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -42,6 +43,9 @@ class AuthService {
   Future<UserCredential?> signInAnonymously() async {
     try {
       UserCredential userCredential = await _auth.signInAnonymously();
+      // ✅ EKLE: Misafir girişi başarılıysa yerel hafızayı işaretle
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('user_type', 'guest');
       return userCredential;
     } on FirebaseAuthException catch (e) {
       _handleAuthError(e);
@@ -51,8 +55,14 @@ class AuthService {
 
   // 4. Çıkış Yap
   Future<void> signOut() async {
-    // ✅ Önce FCM token'ı sil, sonra oturumu kapat
     await NotificationService().deleteFcmToken();
+
+    // ✅ EKLE: Yerel hafızadaki oturum tipini temizle
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('user_type');
+    // İsteğe bağlı: Misafirle ilgili diğer flagleri de silebilirsin
+    // await prefs.clear(); // Tüm hafızayı boşaltmak en güvenlisidir
+
     await _auth.signOut();
   }
 
@@ -89,6 +99,10 @@ class AuthService {
     String? phoneNumber,
   }) async {
     try {
+      // ✅ EKLE: Kullanıcı başarıyla kaydedildiğinde yerel hafızadaki tipi 'member' yap
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('user_type', 'member');
+
       await _firestore.collection('users').doc(uid).set({
         'uid': uid,
         'fullName': fullName,

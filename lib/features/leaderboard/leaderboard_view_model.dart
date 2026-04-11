@@ -8,6 +8,7 @@ class LeaderboardViewModel extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
+  // --- GENEL SIRALAMA VERİLERİ ---
   List<DocumentSnapshot> _topPlayers = [];
   List<DocumentSnapshot> get topPlayers => _topPlayers;
 
@@ -20,22 +21,53 @@ class LeaderboardViewModel extends ChangeNotifier {
   int? _myRank;
   int? get myRank => _myRank;
 
-  Future<void> fetchLeaderboardData(double currentXP) async {
+  // --- HAFTALIK SIRALAMA VERİLERİ ---
+  List<DocumentSnapshot> _topWeeklyPlayers = [];
+  List<DocumentSnapshot> get topWeeklyPlayers => _topWeeklyPlayers;
+
+  List<DocumentSnapshot> _aboveMeWeekly = [];
+  List<DocumentSnapshot> get aboveMeWeekly => _aboveMeWeekly;
+
+  List<DocumentSnapshot> _belowMeWeekly = [];
+  List<DocumentSnapshot> get belowMeWeekly => _belowMeWeekly;
+
+  int? _myWeeklyRank;
+  int? get myWeeklyRank => _myWeeklyRank;
+
+  // ✅ Verileri çeken ana metod
+  // Artık hem genel XP hem de haftalık XP parametre olarak alınıyor
+  Future<void> fetchLeaderboardData(double totalXP, double weeklyXP) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      // Tam sıralamayı al
-      _myRank = await _service.getUserRank(currentXP);
+      // 1. GENEL VERİLERİ ÇEK (Paralel çalışması için Future.wait kullanılabilir)
+      final results = await Future.wait([
+        // Genel Sıralama İşlemleri
+        _service.getUserRank(totalXP, isWeekly: false),
+        _service.getNeighboringLeaderboard(totalXP.toInt(), isWeekly: false),
 
-      // Komşuları ve lideri al
-      final data = await _service.getNeighboringLeaderboard(currentXP.toInt());
+        // Haftalık Sıralama İşlemleri
+        _service.getUserRank(weeklyXP, isWeekly: true),
+        _service.getNeighboringLeaderboard(weeklyXP.toInt(), isWeekly: true),
+      ]);
 
-      _topPlayers = data['topOne'] ?? [];
-      _aboveMe = data['above'] ?? [];
-      _belowMe = data['below'] ?? [];
+      // Genel Sonuçlar
+      _myRank = results[0] as int;
+      final generalData = results[1] as Map<String, List<DocumentSnapshot>>;
+      _topPlayers = generalData['topOne'] ?? [];
+      _aboveMe = generalData['above'] ?? [];
+      _belowMe = generalData['below'] ?? [];
+
+      // Haftalık Sonuçlar
+      _myWeeklyRank = results[2] as int;
+      final weeklyData = results[3] as Map<String, List<DocumentSnapshot>>;
+      _topWeeklyPlayers = weeklyData['topOne'] ?? [];
+      _aboveMeWeekly = weeklyData['above'] ?? [];
+      _belowMeWeekly = weeklyData['below'] ?? [];
+
     } catch (e) {
-      debugPrint("Leaderboard hatası: $e");
+      debugPrint("Leaderboard ViewModel Hatası: $e");
     } finally {
       _isLoading = false;
       notifyListeners();

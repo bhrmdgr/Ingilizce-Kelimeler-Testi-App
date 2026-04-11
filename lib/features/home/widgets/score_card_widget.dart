@@ -19,18 +19,19 @@ class ScoreCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int currentXP = userData.totalXP.toInt();
+    // ✅ KRİTİK: TÜM SAYFA BOYUNCA KULLANILACAK RANK BİLGİSİ SADECE TOTAL XP'DEN GELİYOR
+    final int totalXP = userData.totalXP.toInt();
     final allRanks = RankManager.getAllRanks();
 
     int currentIndex = 0;
     for (int i = 0; i < allRanks.length; i++) {
-      if (currentXP >= allRanks[i]['min']) currentIndex = i;
+      if (totalXP >= allRanks[i]['min']) currentIndex = i;
     }
 
-    final currentRank = allRanks[currentIndex];
+    final currentRank = allRanks[currentIndex]; // ✅ Bu artık sabit rütbemiz
     final Color rankColor = currentRank['color'];
     final int nextGoal = (currentIndex + 1 < allRanks.length) ? allRanks[currentIndex + 1]['min'] : 55000;
-    final double progress = (currentXP / nextGoal).clamp(0.0, 1.0);
+    final double progress = (totalXP / nextGoal).clamp(0.0, 1.0);
 
     return Container(
       width: double.infinity,
@@ -56,7 +57,6 @@ class ScoreCardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(35),
         child: Stack(
           children: [
-            // Dekoratif arka plan ışığı
             Positioned(
               top: -50,
               left: -50,
@@ -69,11 +69,10 @@ class ScoreCardWidget extends StatelessWidget {
                 children: [
                   // --- 1. KATMAN: RÜTBE SERÜVENİ (TIMELINE) ---
                   GestureDetector(
-                    onTap: () => _showRankJourney(context, currentXP),
+                    onTap: () => _showRankJourney(context, totalXP),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // ÖNCEKİ RANK VEYA BAŞLANGIÇ
                         _buildTimelineNode(
                           currentIndex > 0 ? allRanks[currentIndex - 1]['icon'] : "🚀",
                           currentIndex > 0 ? "TAMAMLANDI" : "BAŞLANGIÇ",
@@ -81,13 +80,12 @@ class ScoreCardWidget extends StatelessWidget {
                           isStart: currentIndex == 0,
                         ),
 
-                        // MEVCUT RANK (MERKEZ)
+                        // MEVCUT RANK
                         _buildMainRankNode(currentRank, progress),
 
-                        // SONRAKİ RANK
                         _buildTimelineNode(
                           currentIndex + 1 < allRanks.length ? allRanks[currentIndex + 1]['icon'] : "🏆",
-                          "${nextGoal - currentXP} XP KALDI",
+                          "${nextGoal - totalXP} XP KALDI",
                           isLocked: true,
                         ),
                       ],
@@ -109,7 +107,7 @@ class ScoreCardWidget extends StatelessWidget {
                       children: [
                         _buildStatBox("HAFTALIK", "${userData.weeklyScore.toInt()}", Icons.bolt_rounded, Colors.cyanAccent),
                         _buildVerticalDivider(),
-                        _buildStatBox("TOPLAM", "${userData.totalXP.toInt()}", Icons.emoji_events_rounded, Colors.amberAccent),
+                        _buildStatBox("TOPLAM", "${totalXP}", Icons.emoji_events_rounded, Colors.amberAccent),
                         _buildVerticalDivider(),
                         _buildStatBox("SERİ", "${userData.dailyStreak}", Icons.whatshot_rounded, Colors.orangeAccent),
                       ],
@@ -213,34 +211,121 @@ class ScoreCardWidget extends StatelessWidget {
   Widget _buildVerticalDivider() => Container(height: 30, width: 1, color: Colors.white10);
 
   Widget _buildArenaButton(BuildContext context) {
-    final userRank = context.watch<HomeViewModel>().userRank;
-    final bool isPremium = userData.isPremium;
+    // ✅ ViewModel'i dinliyoruz
+    final viewModel = context.watch<HomeViewModel>();
+
+    // ✅ HomeViewModel'de fetchUserData içinde sabitlediğimiz değişkeni kullanıyoruz
+    final bool isGuest = viewModel.isGuest;
+    final userRank = viewModel.userRank;
 
     return InkWell(
-      onTap: () => isPremium ? Navigator.pushNamed(context, AppRouters.leaderboard, arguments: userData) : _showPremiumAlert(context),
+      onTap: () {
+        // ✅ GİRİŞ KONTROLÜ: ViewModel'deki hazır veriye göre karar veriyoruz
+        if (isGuest) {
+          debugPrint("Sistem: Misafir girişi engellendi.");
+          _showGuestWarning(context);
+        } else {
+          Navigator.pushNamed(context, AppRouters.leaderboard, arguments: userData);
+        }
+      },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
         decoration: BoxDecoration(
-          color: isPremium ? Colors.white.withOpacity(0.15) : Colors.black26,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: isPremium ? Colors.amber.withOpacity(0.6) : Colors.white10, width: 1.5),
+          color: Colors.white.withOpacity(0.18),
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1.5),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4)),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(isPremium ? Icons.stars_rounded : Icons.lock_person_rounded, color: Colors.amber, size: 20),
+            const Icon(Icons.leaderboard_rounded, color: Colors.amberAccent, size: 24),
             const SizedBox(width: 12),
-            Text("ARENA SIRALAMASI", style: TextStyle(color: Colors.white.withOpacity(0.9), fontWeight: FontWeight.w900, fontSize: 11, letterSpacing: 0.5)),
-            if (isPremium && userRank != null) ...[
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: Colors.amber, borderRadius: BorderRadius.circular(10)),
-                child: Text("#$userRank", style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12)),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "ARENA LİGİ",
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.7),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Text(
+                        isGuest ? "KAYIT OL VE YARIŞ" : "Genel ve Haftalık\nSıralamanı Gör",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 13,
+                          height: 1.1,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.visible,
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
+            const Spacer(),
+
+            // ✅ Sağdaki kilit ikonu veya sıralama kontrolü
+            if (isGuest)
+              const Icon(Icons.lock_outline_rounded, color: Colors.white54, size: 20)
+            else if (userRank != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: userRank <= 3
+                        ? [Colors.amber, Colors.orangeAccent]
+                        : [Colors.white.withOpacity(0.9), Colors.white.withOpacity(0.7)],
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  "#$userRank",
+                  style: TextStyle(
+                    color: userRank <= 3 ? Colors.black : Colors.blueGrey.shade900,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 14,
+                  ),
+                ),
+              )
+            else
+              const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white54, size: 16),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showGuestWarning(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF1E293B),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        title: const Text("Arena'ya Katıl", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        content: const Text(
+          "Dünya sıralamasında yer almak ve diğer dil öğrencileriyle yarışmak için bir hesap oluşturmalısın.",
+          style: TextStyle(color: Colors.white70),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("KAPAT", style: TextStyle(color: Colors.white38, fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
     );
   }

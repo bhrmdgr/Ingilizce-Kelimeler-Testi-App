@@ -7,17 +7,18 @@ class LeaderboardService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // ✅ Kullanıcının genel sıralamasını Firebase Count ile maliyetsiz çekme
-  Future<int> getUserRank(double xp) async {
+  // ✅ Kullanıcının sıralamasını çekme (Haftalık veya Genel seçilebilir)
+  Future<int> getUserRank(double score, {bool isWeekly = false}) async {
     try {
-      // Not: totalScore alanına göre 'leaderboard' koleksiyonundan sayıyoruz
+      final String collectionPath = isWeekly ? 'weekly_leaderboard' : 'leaderboard';
+      final String fieldPath = isWeekly ? 'weeklyScore' : 'totalScore';
+
       final query = _firestore
-          .collection('leaderboard')
-          .where('totalScore', isGreaterThan: xp);
+          .collection(collectionPath)
+          .where(fieldPath, isGreaterThan: score);
 
       final snapshot = await query.count().get();
 
-      // Üstte kaç kişi varsa +1 ekleyerek kullanıcının sırasını buluyoruz.
       return (snapshot.count ?? 0) + 1;
     } catch (e) {
       debugPrint("Sıralama çekilemedi (LeaderboardService): $e");
@@ -31,6 +32,7 @@ class LeaderboardService {
 
     final userRef = _firestore.collection('users').doc(user.uid);
     final leaderboardRef = _firestore.collection('leaderboard').doc(user.uid);
+    final weeklyLeaderboardRef = _firestore.collection('weekly_leaderboard').doc(user.uid); // ✅ HAFTALIK REF EKLENDİ
 
     return _firestore.runTransaction((transaction) async {
       DocumentSnapshot userSnap = await transaction.get(userRef);
@@ -47,6 +49,7 @@ class LeaderboardService {
         'lastActive': FieldValue.serverTimestamp(),
       });
 
+      // ✅ GENEL TABLO GÜNCELLEME
       transaction.set(leaderboardRef, {
         'uid': user.uid,
         'username': username,
@@ -54,39 +57,52 @@ class LeaderboardService {
         'totalScore': currentTotal,
         'updatedAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
+
+      // ✅ HAFTALIK TABLO GÜNCELLEME
+      transaction.set(weeklyLeaderboardRef, {
+        'uid': user.uid,
+        'username': username,
+        'avatar': avatar,
+        'weeklyScore': currentWeekly,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
     });
   }
 
-  // ✅ KOMŞU KULLANICILARI GETİR (Önceki 5 - Sonraki 5)
-  Future<Map<String, List<DocumentSnapshot>>> getNeighboringLeaderboard(int currentUserScore) async {
-    final String currentUid = _auth.currentUser?.uid ?? "";
+  // ✅ KOMŞU KULLANICILARI GETİR (Haftalık veya Genel seçilebilir)
+  Future<Map<String, List<DocumentSnapshot>>> getNeighboringLeaderboard(
+      int currentUserScore, {bool isWeekly = false}) async {
 
-    // 🏆 1. SIRADAKİ (Podyum için her zaman çekilir)
+    final String currentUid = _auth.currentUser?.uid ?? "";
+    final String collectionPath = isWeekly ? 'weekly_leaderboard' : 'leaderboard';
+    final String fieldPath = isWeekly ? 'weeklyScore' : 'totalScore';
+
+    // 🏆 İLK 3 KİŞİ (Podyum için)
     var topQuery = await _firestore
-        .collection('leaderboard')
-        .orderBy('totalScore', descending: true)
-        .limit(1)
+        .collection(collectionPath)
+        .orderBy(fieldPath, descending: true)
+        .limit(3)
         .get();
 
     // 🔼 ÜSTTEKİ 5 KİŞİ
     var aboveQuery = await _firestore
-        .collection('leaderboard')
-        .where('totalScore', isGreaterThan: currentUserScore)
-        .orderBy('totalScore', descending: false)
-        .limit(5) // Limit 3'ten 5'e çıkarıldı
+        .collection(collectionPath)
+        .where(fieldPath, isGreaterThan: currentUserScore)
+        .orderBy(fieldPath, descending: false)
+        .limit(3)
         .get();
 
     // 🔽 ALTTAKİ 5 KİŞİ
     var belowQuery = await _firestore
-        .collection('leaderboard')
-        .where('totalScore', isLessThan: currentUserScore)
-        .orderBy('totalScore', descending: true)
-        .limit(5) // Limit 3'ten 5'e çıkarıldı
+        .collection(collectionPath)
+        .where(fieldPath, isLessThan: currentUserScore)
+        .orderBy(fieldPath, descending: true)
+        .limit(3)
         .get();
 
     List<DocumentSnapshot> aboveDocs = aboveQuery.docs.reversed.toList();
 
-    // Kendimizi listelerden temizle (Her ihtimale karşı)
+    // Kendimizi listelerden temizle
     aboveDocs.removeWhere((doc) => doc.id == currentUid);
     List<DocumentSnapshot> belowDocs = belowQuery.docs.where((doc) => doc.id != currentUid).toList();
 

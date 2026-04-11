@@ -265,6 +265,8 @@ class QuizViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
+      // ✅ StatsService artık tüm tabloları (User, Daily, Genel Leaderboard, Haftalık Leaderboard)
+      // tek bir Batch işlemi ile güncellediği için burası yeterli.
       await _statsService.saveQuizResults(
         learnedWords: learnedWords,
         wrongWords: wrongWords,
@@ -272,9 +274,10 @@ class QuizViewModel extends ChangeNotifier {
         isReviewMode: isReview,
       );
 
-      if (currentScore != 0) {
-        await _leaderboardService.updateScores(currentScore);
-      }
+      // ❌ LeaderboardService.updateScores(currentScore) satırı silindi.
+      // Çünkü StatsService içindeki batch.set(leaderboardRef...) ve
+      // batch.set(weeklyLeaderboardRef...) işlemleri bu görevi zaten üstlendi.
+
     } catch (e) {
       debugPrint("Yükleme hatası: $e");
     } finally {

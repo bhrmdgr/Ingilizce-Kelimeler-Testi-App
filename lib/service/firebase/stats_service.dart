@@ -44,6 +44,8 @@ class StatsService {
       ) async {
     final userDoc = _firestore.collection('users').doc(_userId);
     final leaderboardRef = _firestore.collection('leaderboard').doc(_userId);
+    final weeklyLeaderboardRef = _firestore.collection('weekly_leaderboard').doc(_userId); // ✅ HAFTALIK REF EKLENDİ
+
     final now = DateTime.now();
     final dateId = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
     final dailyRef = userDoc.collection('daily_series').doc(dateId);
@@ -109,12 +111,22 @@ class StatsService {
       'weekly_score': FieldValue.increment(earnedPoints),
     }, SetOptions(merge: true));
 
+    // ✅ GENEL LEADERBOARD GÜNCELLEME
     batch.set(leaderboardRef, {
       'uid': _userId,
       'username': userSnap.data()?['username'] ?? "Kullanıcı",
-      'avatarPath': userSnap.data()?['avatarPath'],
+      'avatar': userSnap.data()?['avatarPath'], // Cloud functions ile uyum için key 'avatar' yapıldı
       'totalScore': FieldValue.increment(earnedPoints),
       'last_updated': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
+
+    // ✅ HAFTALIK LEADERBOARD GÜNCELLEME
+    batch.set(weeklyLeaderboardRef, {
+      'uid': _userId,
+      'username': userSnap.data()?['username'] ?? "Kullanıcı",
+      'avatar': userSnap.data()?['avatarPath'],
+      'weeklyScore': FieldValue.increment(earnedPoints),
+      'updatedAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
 
     await batch.commit();

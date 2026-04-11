@@ -364,6 +364,8 @@ class _SigninViewState extends State<SigninView> {
       builder: (context) => StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
+              // Ekran kenarlarından pay bırakarak taşmayı zorlaştırır
+              insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
               backgroundColor: AppTheme.surfaceColor,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               title: const Row(
@@ -373,116 +375,119 @@ class _SigninViewState extends State<SigninView> {
                   Text("Hoş Geldiniz"),
                 ],
               ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Lütfen bir kullanıcı adı belirleyin:", style: TextStyle(fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: _guestNameController,
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      hintText: "Örn: Aslan",
-                      filled: true,
-                      fillColor: AppTheme.backgroundColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
+              // İçeriği SingleChildScrollView içine alıyoruz ki klavye açılınca kaydırılabilsin
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Lütfen bir kullanıcı adı belirleyin:", style: TextStyle(fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _guestNameController,
+                      autofocus: true,
+                      decoration: InputDecoration(
+                        hintText: "Örn: Aslan",
+                        filled: true,
+                        fillColor: AppTheme.backgroundColor,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.orange.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 22),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                style: const TextStyle(
+                                  fontSize: 12.5,
+                                  color: Colors.deepOrange,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.4,
+                                ),
+                                children: [
+                                  const TextSpan(
+                                    text: "Önemli: Misafir modunda verileriniz yedeklenmez. Uygulama silinirse tüm ilerlemeniz kaybolur. Verilerinizin kaybolmaması için ",
+                                  ),
+                                  TextSpan(
+                                    text: "ÜCRETSİZ kayıt olabilirsiniz.",
+                                    style: const TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.w900,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 13,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pop(context);
+                                        viewModel.clearError();
+                                        Navigator.pushNamed(context, AppRouters.signUp);
+                                      },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: Row(
+                    const SizedBox(height: 20),
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.warning_amber_rounded, color: Colors.orange, size: 22),
-                        const SizedBox(width: 10),
+                        SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: Checkbox(
+                            value: isAccepted,
+                            onChanged: (value) {
+                              setDialogState(() {
+                                isAccepted = value ?? false;
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 8),
                         Expanded(
                           child: RichText(
                             text: TextSpan(
-                              style: const TextStyle(
-                                fontSize: 12.5,
-                                color: Colors.deepOrange,
-                                fontWeight: FontWeight.w500,
-                                height: 1.4,
-                              ),
+                              style: TextStyle(color: Colors.grey.shade700, fontSize: 13),
                               children: [
-                                const TextSpan(
-                                  text: "Önemli: Misafir modunda verileriniz yedeklenmez. Uygulama silinirse tüm ilerlemeniz kaybolur. Verilerinizin kaybolmaması için ",
-                                ),
                                 TextSpan(
-                                  text: "ÜCRETSİZ kayıt olabilirsiniz.",
-                                  style: const TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.w900,
-                                    decoration: TextDecoration.underline,
-                                    fontSize: 13,
-                                  ),
+                                  text: "Kullanım Koşulları",
+                                  style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.pop(context);
-                                      viewModel.clearError();
-                                      Navigator.pushNamed(context, AppRouters.signUp);
-                                    },
+                                    ..onTap = () => _showPolicyContent("Kullanım Koşulları", TermsOfUse.content),
                                 ),
+                                const TextSpan(text: " ve "),
+                                TextSpan(
+                                  text: "Gizlilik Politikası",
+                                  style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => _showPolicyContent("Gizlilik Politikası", PrivacyPolicy.content),
+                                ),
+                                const TextSpan(text: " metinlerini okudum ve kabul ediyorum."),
                               ],
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: Checkbox(
-                          value: isAccepted,
-                          onChanged: (value) {
-                            setDialogState(() {
-                              isAccepted = value ?? false;
-                            });
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            style: TextStyle(color: Colors.grey.shade700, fontSize: 13),
-                            children: [
-                              TextSpan(
-                                text: "Kullanım Koşulları",
-                                style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => _showPolicyContent("Kullanım Koşulları", TermsOfUse.content),
-                              ),
-                              const TextSpan(text: " ve "),
-                              TextSpan(
-                                text: "Gizlilik Politikası",
-                                style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => _showPolicyContent("Gizlilik Politikası", PrivacyPolicy.content),
-                              ),
-                              const TextSpan(text: " metinlerini okudum ve kabul ediyorum."),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
               actions: [
                 TextButton(

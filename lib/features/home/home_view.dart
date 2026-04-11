@@ -9,6 +9,7 @@ import 'package:ingilizce_kelime_testi/features/home/home_model.dart';
 import 'package:ingilizce_kelime_testi/features/home/widgets/avatar_selection_view.dart';
 import 'package:ingilizce_kelime_testi/features/home/widgets/level_up_dialog.dart';
 import 'package:ingilizce_kelime_testi/features/home/widgets/score_card_widget.dart'; // Yeni widget
+import 'package:ingilizce_kelime_testi/features/home/widgets/announcement_widget.dart'; // Duyuru widget'ı
 import 'package:ingilizce_kelime_testi/features/settings/settings_view_model.dart';
 import 'package:ingilizce_kelime_testi/helpers/rank_manager/rank_manager.dart';
 import 'package:ingilizce_kelime_testi/helpers/routers/routers.dart';
@@ -405,58 +406,65 @@ class _HomeViewState extends State<HomeView> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF0F2FF),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFFF8F9FF), Color(0xFFE8EBFF)],
-          ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(data, rank),
-                const SizedBox(height: 15),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFFF8F9FF), Color(0xFFE8EBFF)],
+              ),
+            ),
+            child: SafeArea(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(data, rank),
+                    const SizedBox(height: 15),
 
-                Text(
-                  "İstatistiklerin",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.blueGrey.shade900),
+                    Text(
+                      "İstatistiklerin",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.blueGrey.shade900),
+                    ),
+                    const SizedBox(height: 15),
+                    ScoreCardWidget(
+                      userData: data,
+                      onShowLeaderboard: () async {
+                        if (data.isPremium) {
+                          final leaderboardData = await LeaderboardService()
+                              .getNeighboringLeaderboard(data.totalXP.toInt());
+                          if (mounted) {
+                            _showArenaDialog(context, leaderboardData, rank['color']);
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Arena ligi için Premium üye olmalısınız.")),
+                          );
+                        }
+                      },
+                    ),
+
+                    const SizedBox(height: 15),
+                    _buildDailyGoalCard(data),
+                    const SizedBox(height: 15),
+                    _buildStartButton(),
+                    const SizedBox(height: 15),
+                    _buildStatGrid(data),
+                    const SizedBox(height: 30),
+
+                  ],
                 ),
-                const SizedBox(height: 15),
-                ScoreCardWidget(
-                  userData: data,
-                  onShowLeaderboard: () async {
-                    if (data.isPremium) {
-                      final leaderboardData = await LeaderboardService()
-                          .getNeighboringLeaderboard(data.totalXP.toInt());
-                      if (mounted) {
-                        _showArenaDialog(context, leaderboardData, rank['color']);
-                      }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Arena ligi için Premium üye olmalısınız.")),
-                      );
-                    }
-                  },
-                ),
-
-                const SizedBox(height: 15),
-                _buildDailyGoalCard(data),
-                const SizedBox(height: 15),
-                _buildStartButton(),
-                const SizedBox(height: 15),
-                _buildStatGrid(data),
-                const SizedBox(height: 30),
-
-              ],
+              ),
             ),
           ),
-        ),
+          // ✅ DUYURU KATMANI
+          if (viewModel.pendingAnnouncement != null)
+            AnnouncementWidget(data: viewModel.pendingAnnouncement!),
+        ],
       ),
       bottomNavigationBar: !data.isPremium
           ? SmartBannerWidget(adUnitId: AdMobService.bannerAdUnitIdHome)

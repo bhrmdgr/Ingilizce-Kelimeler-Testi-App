@@ -41,10 +41,10 @@ class SettingsView extends StatelessWidget {
                 // Misafir ise sadece mesaj göster
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text("Bu özelliği kullanabilmek için kayıtlı kullanıcı olmalısınız."),
+                    content: Text("Bu özelliği kullanabilmek için kayıtlı kullanıcı olmalısınız. Eğer yeni kayıt olduysanız lütfen uygulamayı YENİDEN başlatın."),
                     behavior: SnackBarBehavior.floating,
                     backgroundColor: Color(0xFF5D3FD3), // Uygulama temanıza uygun renk
-                    duration: Duration(seconds: 2),
+                    duration: Duration(seconds: 3),
                   ),
                 );
               } else {
@@ -69,7 +69,7 @@ class SettingsView extends StatelessWidget {
 
             const SizedBox(height: 25),
             _buildSectionTitle("Uygulama"),
-            _buildSettingItem(Icons.workspace_premium_rounded, "Premium'a Geç", "Reklamsız ve sınırsız deneyim", () {
+            /*_buildSettingItem(Icons.workspace_premium_rounded, "Premium'a Geç", "Reklamsız ve sınırsız deneyim", () {
               if (viewModel.isGuest) {
                 // Misafir ise sadece mesaj göster
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -83,7 +83,7 @@ class SettingsView extends StatelessWidget {
               } else {
                 Navigator.pushNamed(context, AppRouters.premium);
               }
-            }, isPremium: true),
+            }, isPremium: true),*/
             _buildSettingItem(Icons.help_outline_rounded, "Yardım ve Destek", "Bize soru sor", () {
               Navigator.pushNamed(context, AppRouters.help);
             }),
