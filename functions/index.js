@@ -357,3 +357,61 @@ exports.resetWeeklyScores = onSchedule(
   }
 );
 
+// 5. VERİ TAŞIMA SCRIPT'İ (GEÇİCİ - SADECE BİR KEZ)
+// Mevcut users verilerini weekly_leaderboard'a aktarır
+// ─────────────────────────────────────────────
+exports.migrateWeeklyScores = onSchedule(
+  {
+    schedule: "*/5 * * * *", // Her 5 dakikada bir tetiklenir (Manuel tetikleme sonrası silinmelidir)
+    timeZone: "Europe/Istanbul"
+  },
+  async (event) => {
+    console.log("--- VERİ TAŞIMA (MIGRATION) BAŞLADI ---");
+
+    try {
+      const usersRef = admin.firestore().collection("users");
+      const weeklyRef = admin.firestore().collection("weekly_leaderboard");
+      const snapshot = await usersRef.get();
+
+      if (snapshot.empty) {
+        console.log("Taşınacak veri bulunamadı.");
+        return;
+      }
+
+      let batch = admin.firestore().batch();
+      let count = 0;
+      let totalProcessed = 0;
+
+      for (const doc of snapshot.docs) {
+        const data = doc.data();
+
+        batch.set(weeklyRef.doc(doc.id), {
+          uid: doc.id,
+          username: data.username || "Öğrenci",
+          avatar: data.avatarPath || "assets/avatars/boy-avatar-1.png",
+          weeklyScore: data.weekly_score || 0,
+          totalScore: data.total_xp || 0,
+          updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        }, { merge: true });
+
+        count++;
+        totalProcessed++;
+
+        if (count === 500) {
+          await batch.commit();
+          console.log(`${totalProcessed} kayıt başarıyla taşındı...`);
+          batch = admin.firestore().batch();
+          count = 0;
+        }
+      }
+
+      if (count > 0) {
+        await batch.commit();
+      }
+
+      console.log(`İŞLEM TAMAMLANDI: Toplam ${totalProcessed} kullanıcı haftalık tabloya aktarıldı.`);
+    } catch (error) {
+      console.error("Taşıma hatası:", error);
+    }
+  }
+);

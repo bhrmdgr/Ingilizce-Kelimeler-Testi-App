@@ -36,14 +36,17 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // ✅ APP CHECK AKTİVASYONU VE TTL DESTEĞİ
   if (Platform.isIOS || Platform.isAndroid) {
     await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
   }
 
-  // ✅ APP CHECK AKTİVASYONU - DİNAMİK MOD (DEBUG VE RELEASE İÇİN)
+  // ✅ APP CHECK AKTİVASYONU - Hata giderilmiş versiyon
   await FirebaseAppCheck.instance.activate(
     webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
     androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
+    // Apple tarafında direkt AppleProvider.debug yerine AppleProvider.appAttest
+    // veya DeviceCheck kullanıp debug modda otomatik debug provider'a düşmesini sağlıyoruz.
     appleProvider: kDebugMode ? AppleProvider.debug : AppleProvider.deviceCheck,
   );
 

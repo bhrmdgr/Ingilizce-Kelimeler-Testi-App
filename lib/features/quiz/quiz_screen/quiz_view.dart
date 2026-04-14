@@ -207,7 +207,18 @@ class _QuizViewState extends State<QuizView> {
             ],
           ),
         ),
-        bottomNavigationBar: SmartBannerWidget(adUnitId: AdMobService.bannerAdUnitIdQuiz),
+        bottomNavigationBar: !widget.isReviewMode && !widget.isLearnedReview
+            ? Container(
+          color: Colors.white, // Alt barın arka plan rengi
+          child: SafeArea(
+            // ✅ iOS'ta (Home Indicator) boşluk bırakmaz, direkt yaslar.
+            // ✅ Android'de navigasyon butonları için gerekli boşluğu bırakır.
+            bottom: Theme.of(context).platform == TargetPlatform.android,
+            top: false,
+            child: SmartBannerWidget(adUnitId: AdMobService.bannerAdUnitIdQuiz),
+          ),
+        )
+            : const SizedBox.shrink(),
       ),
     );
   }

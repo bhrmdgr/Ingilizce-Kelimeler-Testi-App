@@ -69,6 +69,21 @@ class LeaderboardService {
     });
   }
 
+  // LeaderboardService.dart içine ekle:
+  Future<List<Map<String, dynamic>>> getLastWeekChampions() async {
+    try {
+      final snapshot = await _firestore
+          .collection('last_week_champions')
+          .orderBy('rank', descending: false) // 1, 2, 3 diye sırala
+          .get();
+
+      return snapshot.docs.map((doc) => doc.data()).toList();
+    } catch (e) {
+      debugPrint("Şampiyonlar çekilemedi: $e");
+      return [];
+    }
+  }
+
   // ✅ KOMŞU KULLANICILARI GETİR (Haftalık veya Genel seçilebilir)
   Future<Map<String, List<DocumentSnapshot>>> getNeighboringLeaderboard(
       int currentUserScore, {bool isWeekly = false}) async {
@@ -84,25 +99,25 @@ class LeaderboardService {
         .limit(3)
         .get();
 
-    // 🔼 ÜSTTEKİ 5 KİŞİ
+    // 🔼 ÜSTTEKİ KİŞİLER (Limiti 6 yaptım ki alt boşsa burası doldursun)
     var aboveQuery = await _firestore
         .collection(collectionPath)
         .where(fieldPath, isGreaterThan: currentUserScore)
         .orderBy(fieldPath, descending: false)
-        .limit(3)
+        .limit(6)
         .get();
 
-    // 🔽 ALTTAKİ 5 KİŞİ
+    // 🔽 ALTTAKİ KİŞİLER (Limiti 6 yaptım ki üst boşsa (1. isen) burası doldursun)
     var belowQuery = await _firestore
         .collection(collectionPath)
         .where(fieldPath, isLessThan: currentUserScore)
         .orderBy(fieldPath, descending: true)
-        .limit(3)
+        .limit(6)
         .get();
 
     List<DocumentSnapshot> aboveDocs = aboveQuery.docs.reversed.toList();
 
-    // Kendimizi listelerden temizle
+    // Kendimizi listelerden temizle (Her ihtimale karşı)
     aboveDocs.removeWhere((doc) => doc.id == currentUid);
     List<DocumentSnapshot> belowDocs = belowQuery.docs.where((doc) => doc.id != currentUid).toList();
 

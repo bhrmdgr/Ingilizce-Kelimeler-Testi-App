@@ -8,8 +8,8 @@ import 'package:ingilizce_kelime_testi/features/admob_widget/smart_banner_widget
 import 'package:ingilizce_kelime_testi/features/home/home_model.dart';
 import 'package:ingilizce_kelime_testi/features/home/widgets/avatar_selection_view.dart';
 import 'package:ingilizce_kelime_testi/features/home/widgets/level_up_dialog.dart';
-import 'package:ingilizce_kelime_testi/features/home/widgets/score_card_widget.dart'; // Yeni widget
-import 'package:ingilizce_kelime_testi/features/home/widgets/announcement_widget.dart'; // Duyuru widget'ı
+import 'package:ingilizce_kelime_testi/features/home/widgets/score_card_widget.dart';
+import 'package:ingilizce_kelime_testi/features/home/widgets/announcement_widget.dart';
 import 'package:ingilizce_kelime_testi/features/settings/settings_view_model.dart';
 import 'package:ingilizce_kelime_testi/helpers/rank_manager/rank_manager.dart';
 import 'package:ingilizce_kelime_testi/helpers/routers/routers.dart';
@@ -17,6 +17,7 @@ import 'package:ingilizce_kelime_testi/service/admob/admob_service.dart';
 import 'package:ingilizce_kelime_testi/service/firebase/leaderboard_service.dart';
 import 'package:ingilizce_kelime_testi/service/firebase/notification_service.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // ✅ Eklendi
 import 'home_view_model.dart';
 
 class HomeView extends StatefulWidget {
@@ -29,6 +30,11 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int? _previousXP;
 
+  // ✅ KESİN ÇÖZÜM: Statik bellek kilitleri
+  static bool _isPickerActive = false;
+  static bool _avatarSetInThisSession = false;
+  static bool _goalSetInThisSession = false;
+
   @override
   void initState() {
     super.initState();
@@ -38,31 +44,22 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Future<void> _initialLoad() async {
-    // 1. Veriyi çekiyoruz
     await context.read<HomeViewModel>().fetchUserData();
-
-    // ✅ KRİTİK: Async işlem bittiğinde widget hala ekranda mı?
-    // Eğer kullanıcı veri çekilirken geri tuşuna bastıysa veya sayfa kapandıysa devam etme.
     if (!mounted) return;
 
-    // 2. Veri geldiyse XP takibi için saklıyoruz
     final data = context.read<HomeViewModel>().userData;
     if (data != null) {
       _previousXP = data.totalXP.toInt();
     }
 
-    // 3. Bildirim servislerini başlatıyoruz
     final NotificationService notifService = NotificationService();
     await notifService.requestPermissions();
-
-    // Tekrar kontrol: İzin istenirken kullanıcı sayfadan çıkmış olabilir
     if (!mounted) return;
 
     await notifService.initForegroundHandler();
     notifService.listenToTokenRefresh();
     await notifService.updateFcmToken();
 
-    // 4. Son kontrolleri yapıyoruz
     _checkUserDataStatus();
   }
 
@@ -86,18 +83,36 @@ class _HomeViewState extends State<HomeView> {
     _previousXP = currentXP;
   }
 
-  void _checkUserDataStatus() {
-    if (!mounted) return;
+  void _checkUserDataStatus() async {
+    if (!mounted || _isPickerActive) return;
+
     final data = context.read<HomeViewModel>().userData;
+    final prefs = await SharedPreferences.getInstance();
+
+    // Kalıcı kontrol: Hem Firestore hem de Yerel hafıza (App Check hatasına karşı sigorta)
+    bool hasLocalAvatar = prefs.getBool('local_avatar_done') ?? false;
+    bool hasLocalGoal = prefs.getBool('local_goal_done') ?? false;
+
     if (data == null) return;
-    if (data.avatarPath == null || data.avatarPath!.isEmpty) {
+
+    // 1. Avatar Kontrolü
+    if ((data.avatarPath == null || data.avatarPath!.isEmpty) &&
+        !_avatarSetInThisSession && !hasLocalAvatar) {
       _showAvatarSelection();
-    } else if (data.dailyGoal == 0) {
+      return;
+    }
+
+    // 2. Hedef Kontrolü
+    if (data.dailyGoal == 0 && !_goalSetInThisSession && !hasLocalGoal) {
       _showGoalSelectionDialog();
+      return;
     }
   }
 
   void _showAvatarSelection() async {
+    if (_isPickerActive) return;
+    setState(() => _isPickerActive = true);
+
     final selectedAvatar = await showModalBottomSheet<String>(
       context: context,
       isDismissible: false,
@@ -106,16 +121,31 @@ class _HomeViewState extends State<HomeView> {
       builder: (context) => AvatarSelectionView(),
     );
 
-    if (selectedAvatar != null && mounted) {
-      final user = FirebaseAuth.instance.currentUser;
-      final uid = user?.uid ?? "guest_user";
-      bool isGuest = user?.isAnonymous ?? true;
-      await context.read<HomeViewModel>().updateAvatar(uid, selectedAvatar, isGuest);
-      if (mounted) _checkUserDataStatus();
+    if (mounted) {
+      if (selectedAvatar != null) {
+        // ✅ Yerel mühürü bas
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('local_avatar_done', true);
+        _avatarSetInThisSession = true;
+
+        final user = FirebaseAuth.instance.currentUser;
+        final uid = user?.uid ?? "guest_user";
+        bool isGuest = user?.isAnonymous ?? true;
+
+        await context.read<HomeViewModel>().updateAvatar(uid, selectedAvatar, isGuest);
+
+        setState(() => _isPickerActive = false);
+        _checkUserDataStatus(); // Varsa bir sonraki (Goal) adıma geç
+      } else {
+        setState(() => _isPickerActive = false);
+      }
     }
   }
 
   void _showGoalSelectionDialog() {
+    if (_isPickerActive) return;
+    setState(() => _isPickerActive = true);
+
     final List<int> defaultGoals = [20, 50, 100, 200];
     final TextEditingController customController = TextEditingController();
 
@@ -151,9 +181,16 @@ class _HomeViewState extends State<HomeView> {
               runSpacing: 12,
               alignment: WrapAlignment.center,
               children: defaultGoals.map((goal) => GestureDetector(
-                onTap: () {
-                  context.read<HomeViewModel>().setDailyGoal(goal);
-                  Navigator.pop(context);
+                onTap: () async {
+                  // ✅ Yerel mühürü bas
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setBool('local_goal_done', true);
+                  _goalSetInThisSession = true;
+
+                  if (mounted) {
+                    context.read<HomeViewModel>().setDailyGoal(goal);
+                    Navigator.pop(context);
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -179,11 +216,18 @@ class _HomeViewState extends State<HomeView> {
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.arrow_circle_right_rounded, color: Color(0xFF5D3FD3), size: 30),
-                  onPressed: () {
+                  onPressed: () async {
                     int? customGoal = int.tryParse(customController.text);
                     if (customGoal != null && customGoal > 0) {
-                      context.read<HomeViewModel>().setDailyGoal(customGoal);
-                      Navigator.pop(context);
+                      // ✅ Yerel mühürü bas
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setBool('local_goal_done', true);
+                      _goalSetInThisSession = true;
+
+                      if (mounted) {
+                        context.read<HomeViewModel>().setDailyGoal(customGoal);
+                        Navigator.pop(context);
+                      }
                     }
                   },
                 ),
@@ -192,7 +236,9 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
       ),
-    );
+    ).then((_) {
+      if (mounted) setState(() => _isPickerActive = false);
+    });
   }
 
   // --- Arena/Leaderboard Alert Metodu ---
@@ -467,7 +513,16 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       bottomNavigationBar: !data.isPremium
-          ? SmartBannerWidget(adUnitId: AdMobService.bannerAdUnitIdHome)
+          ? Container(
+        color: Colors.white, // Alt barın rengi
+        child: SafeArea(
+          // ✅ iOS'ta safe area'yı kapatıyoruz (çizginin altına girer/yaslanır)
+          // ✅ Android'de ise sistem navigasyon butonlarını kurtarmak için açık tutuyoruz
+          bottom: Theme.of(context).platform == TargetPlatform.android,
+          top: false,
+          child: SmartBannerWidget(adUnitId: AdMobService.bannerAdUnitIdHome),
+        ),
+      )
           : const SizedBox.shrink(),
     );
   }

@@ -34,14 +34,17 @@ class LeaderboardViewModel extends ChangeNotifier {
   int? _myWeeklyRank;
   int? get myWeeklyRank => _myWeeklyRank;
 
+  // ✅ GEÇEN HAFTANIN ŞAMPİYONLARI VERİSİ
+  List<Map<String, dynamic>> _lastWeekChampions = [];
+  List<Map<String, dynamic>> get lastWeekChampions => _lastWeekChampions;
+
   // ✅ Verileri çeken ana metod
-  // Artık hem genel XP hem de haftalık XP parametre olarak alınıyor
   Future<void> fetchLeaderboardData(double totalXP, double weeklyXP) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      // 1. GENEL VERİLERİ ÇEK (Paralel çalışması için Future.wait kullanılabilir)
+      // 1. Verileri Paralel Olarak Çek
       final results = await Future.wait([
         // Genel Sıralama İşlemleri
         _service.getUserRank(totalXP, isWeekly: false),
@@ -50,6 +53,9 @@ class LeaderboardViewModel extends ChangeNotifier {
         // Haftalık Sıralama İşlemleri
         _service.getUserRank(weeklyXP, isWeekly: true),
         _service.getNeighboringLeaderboard(weeklyXP.toInt(), isWeekly: true),
+
+        // ✅ Geçen Haftanın Şampiyonlarını Çek (Haftalık Podyum İçin)
+        _service.getLastWeekChampions(),
       ]);
 
       // Genel Sonuçlar
@@ -65,6 +71,9 @@ class LeaderboardViewModel extends ChangeNotifier {
       _topWeeklyPlayers = weeklyData['topOne'] ?? [];
       _aboveMeWeekly = weeklyData['above'] ?? [];
       _belowMeWeekly = weeklyData['below'] ?? [];
+
+      // ✅ Şampiyonları Ata
+      _lastWeekChampions = results[4] as List<Map<String, dynamic>>;
 
     } catch (e) {
       debugPrint("Leaderboard ViewModel Hatası: $e");

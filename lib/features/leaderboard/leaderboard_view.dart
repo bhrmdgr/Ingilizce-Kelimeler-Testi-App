@@ -39,11 +39,53 @@ class _LeaderboardViewState extends State<LeaderboardView> with SingleTickerProv
     super.dispose();
   }
 
+  // ✅ Kullanıcıyı Bildirme Diyaloğu
+  void _showReportDialog(String targetUsername) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF1E293B),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text("Kullanıcıyı Bildir", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        content: Text(
+          "'$targetUsername' isimli kullanıcının profil isminde uygunsuz içerik olduğunu bildirmek istiyor musunuz?",
+          style: const TextStyle(color: Colors.white70),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("VAZGEÇ", style: TextStyle(color: Colors.white38)),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            onPressed: () async {
+              await FirebaseFirestore.instance.collection('reports').add({
+                'reporter': widget.userData.username,
+                'reportedUser': targetUsername,
+                'reason': 'Uygunsuz Kullanıcı Adı',
+                'timestamp': FieldValue.serverTimestamp(),
+              });
+              if (mounted) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Bildiriminiz incelenmek üzere alındı.")),
+                );
+              }
+            },
+            child: const Text("BİLDİR", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
   String _getValidAvatar(String? path) {
-    if (path == null || path.trim().isEmpty || !path.contains('assets')) {
-      return _defaultAvatar;
-    }
-    return path;
+    if (path == null || path.trim().isEmpty) return _defaultAvatar;
+    if (path.contains('assets/')) return path;
+    return "assets/avatars/$path";
   }
 
   @override
@@ -116,17 +158,10 @@ class _LeaderboardViewState extends State<LeaderboardView> with SingleTickerProv
         indicator: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           gradient: LinearGradient(
-            colors: [
-              userRankColor,
-              userRankColor.withBlue(150).withRed(100)
-            ],
+            colors: [userRankColor, userRankColor.withBlue(150).withRed(100)],
           ),
           boxShadow: [
-            BoxShadow(
-                color: userRankColor.withOpacity(0.4),
-                blurRadius: 10,
-                offset: const Offset(0, 4)
-            )
+            BoxShadow(color: userRankColor.withOpacity(0.4), blurRadius: 10, offset: const Offset(0, 4))
           ],
         ),
         labelColor: Colors.white,
@@ -134,32 +169,48 @@ class _LeaderboardViewState extends State<LeaderboardView> with SingleTickerProv
         labelStyle: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 1),
         indicatorSize: TabBarIndicatorSize.tab,
         dividerColor: Colors.transparent,
-        tabs: const [
-          Tab(text: "HAFTALIK"),
-          Tab(text: "GENEL"),
-        ],
+        tabs: const [Tab(text: "HAFTALIK"), Tab(text: "GENEL")],
       ),
     );
   }
 
   Widget _buildLeaderboardList(LeaderboardViewModel viewModel, {required bool isWeekly, required String title}) {
-    final topPlayers = isWeekly ? viewModel.topWeeklyPlayers : viewModel.topPlayers;
+    // ✅ Haftalık podyumda ŞAMPİYONLAR, Genel podyumda TOP PLAYERS gösterilir.
+    final podiumData = isWeekly ? viewModel.lastWeekChampions : viewModel.topPlayers;
     final aboveMe = isWeekly ? viewModel.aboveMeWeekly : viewModel.aboveMe;
     final belowMe = isWeekly ? viewModel.belowMeWeekly : viewModel.belowMe;
     final myRank = isWeekly ? viewModel.myWeeklyRank : viewModel.myRank;
+
+    List<DocumentSnapshot?> fullPotentials = [];
+    fullPotentials.addAll(aboveMe);
+    fullPotentials.add(null);
+    fullPotentials.addAll(belowMe);
+
+    final List<DocumentSnapshot?> displayList = fullPotentials.take(7).toList();
 
     return ListView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       children: [
-        _buildPodium(topPlayers, isWeekly: isWeekly),
+        _buildPodium(podiumData, isWeekly: isWeekly),
         const SizedBox(height: 25),
-        _buildSectionTitle(title),
+        _buildSectionTitle(isWeekly ? "BU HAFTAKİ REKABET 🔥" : title),
         const SizedBox(height: 10),
 
-        ...aboveMe.map((doc) => _buildPlayerCard(doc, isMe: false, isWeekly: isWeekly)),
-        _buildPlayerCard(null, isMe: true, currentRank: myRank, isWeekly: isWeekly),
-        ...belowMe.map((doc) => _buildPlayerCard(doc, isMe: false, isWeekly: isWeekly)),
+        ...displayList.map((doc) {
+          if (doc == null) {
+            return _buildPlayerCard(null, isMe: true, currentRank: myRank, isWeekly: isWeekly);
+          }
+
+          int? calculatedRank;
+          if (myRank != null) {
+            int myPosInOriginal = fullPotentials.indexOf(null);
+            int docPosInOriginal = fullPotentials.indexOf(doc);
+            calculatedRank = myRank + (docPosInOriginal - myPosInOriginal);
+          }
+
+          return _buildPlayerCard(doc, isMe: false, currentRank: calculatedRank, isWeekly: isWeekly);
+        }),
 
         const SizedBox(height: 40),
       ],
@@ -188,33 +239,59 @@ class _LeaderboardViewState extends State<LeaderboardView> with SingleTickerProv
     );
   }
 
-  Widget _buildPodium(List topPlayers, {required bool isWeekly}) {
-    if (topPlayers.isEmpty) return const SizedBox.shrink();
+  Widget _buildPodium(List podiumData, {required bool isWeekly}) {
+    if (podiumData.isEmpty) return const SizedBox.shrink();
 
     List<Widget> podiumItems = [];
-    if (topPlayers.length >= 2) podiumItems.add(_buildPodiumItem(topPlayers[1], 2, isWeekly: isWeekly));
-    podiumItems.add(_buildPodiumItem(topPlayers[0], 1, isWeekly: isWeekly));
-    if (topPlayers.length >= 3) podiumItems.add(_buildPodiumItem(topPlayers[2], 3, isWeekly: isWeekly));
+    if (podiumData.length >= 2) podiumItems.add(_buildPodiumItem(podiumData[1], 2, isWeekly: isWeekly));
+    podiumItems.add(_buildPodiumItem(podiumData[0], 1, isWeekly: isWeekly));
+    if (podiumData.length >= 3) podiumItems.add(_buildPodiumItem(podiumData[2], 3, isWeekly: isWeekly));
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: podiumItems,
-      ),
+    return Column(
+      children: [
+        if (isWeekly)
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 5),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.amber.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.amber.withOpacity(0.3)),
+              ),
+              child: const Text(
+                "GEÇEN HAFTANIN ŞAMPİYONLARI 🏆",
+                style: TextStyle(color: Colors.amber, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1),
+              ),
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.only(top: 20, bottom: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: podiumItems,
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildPodiumItem(dynamic doc, int rank, {required bool isWeekly}) {
-    final data = doc.data() as Map<String, dynamic>;
+  Widget _buildPodiumItem(dynamic item, int rank, {required bool isWeekly}) {
+    // ✅ Veri tipine göre (Map veya DocumentSnapshot) datayı çekiyoruz
+    final Map<String, dynamic> data = item is DocumentSnapshot
+        ? (item.data() as Map<String, dynamic>)
+        : (item as Map<String, dynamic>);
+
     final bool isMe = (data['username'] == widget.userData.username);
-
     final String name = isMe ? widget.userData.username : (data['username'] ?? "...");
-    final String avatar = isMe ? _getValidAvatar(widget.userData.avatarPath) : _getValidAvatar(data['avatar']);
 
-    // ✅ Podyumda gösterilen puan (Haftalık mı Genel mi)
-    final displayScore = (data[isWeekly ? 'weeklyScore' : 'totalScore'] ?? 0).toInt();
+    final String? avatarData = data['avatar'] ?? data['avatarPath'];
+    final String avatar = isMe ? _getValidAvatar(widget.userData.avatarPath) : _getValidAvatar(avatarData);
+
+    // ✅ Haftalık podyumda 'score' (Kaydedilen), Genel podyumda 'totalScore' veya 'weeklyScore'
+    final int scoreKey = isWeekly ? (data['score'] ?? 0) : (data[isWeekly ? 'weeklyScore' : 'totalScore'] ?? 0);
+    final displayScore = scoreKey.toInt();
 
     double avatarRadius = rank == 1 ? 45 : 35;
     double iconSize = rank == 1 ? 40 : 30;
@@ -234,27 +311,33 @@ class _LeaderboardViewState extends State<LeaderboardView> with SingleTickerProv
               CircleAvatar(
                 radius: avatarRadius + 3,
                 backgroundColor: rankColor,
-                child: CircleAvatar(
-                  radius: avatarRadius,
-                  backgroundImage: AssetImage(avatar),
-                ),
+                child: CircleAvatar(radius: avatarRadius, backgroundImage: AssetImage(avatar)),
               ),
               Positioned(
                 bottom: 0,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: rankColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.white, width: 1),
-                  ),
+                  decoration: BoxDecoration(color: rankColor, borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.white, width: 1)),
                   child: Text(rank.toString(), style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 10)),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          Text(name, style: TextStyle(color: Colors.white, fontSize: rank == 1 ? 14 : 12, fontWeight: rank == 1 ? FontWeight.bold : FontWeight.normal)),
+          Row( // ✅ İsmin yanına küçük bir ünlem ekledik
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(name, style: TextStyle(color: Colors.white, fontSize: rank == 1 ? 14 : 12, fontWeight: rank == 1 ? FontWeight.bold : FontWeight.normal)),
+              if (!isMe)
+                GestureDetector(
+                  onTap: () => _showReportDialog(name),
+                  child: const Padding(
+                    padding: EdgeInsets.only(left: 4),
+                    child: Icon(Icons.error_outline_rounded, color: Colors.white24, size: 14),
+                  ),
+                ),
+            ],
+          ),
           Text("$displayScore XP", style: TextStyle(color: rankColor.withOpacity(0.8), fontSize: 10, fontWeight: FontWeight.bold)),
         ],
       ),
@@ -264,25 +347,24 @@ class _LeaderboardViewState extends State<LeaderboardView> with SingleTickerProv
   Widget _buildPlayerCard(dynamic doc, {required bool isMe, int? currentRank, required bool isWeekly}) {
     String name;
     int displayScore;
-    int rankCalculationScore; // ✅ Rütbe hesabı için kullanılacak puan
+    int rankCalcScore;
     String avatar;
 
     if (isMe) {
       name = widget.userData.username;
       displayScore = isWeekly ? widget.userData.weeklyScore.toInt() : widget.userData.totalXP.toInt();
-      rankCalculationScore = widget.userData.totalXP.toInt(); // Kendimiz için her zaman totalXP
+      rankCalcScore = widget.userData.totalXP.toInt();
       avatar = _getValidAvatar(widget.userData.avatarPath);
     } else {
       final data = doc.data() as Map<String, dynamic>;
       name = data['username'] ?? "Öğrenci";
       displayScore = (data[isWeekly ? 'weeklyScore' : 'totalScore'] ?? 0).toInt();
-      // ✅ BAŞKASI İÇİN: Rütbe ikonu her zaman totalScore üzerinden hesaplanır
-      rankCalculationScore = (data['totalScore'] ?? 0).toInt();
-      avatar = _getValidAvatar(data['avatar']);
+      rankCalcScore = (data['totalScore'] ?? 0).toInt();
+      final String? avatarData = data['avatar'] ?? data['avatarPath'];
+      avatar = _getValidAvatar(avatarData);
     }
 
-    // ✅ Rütbe ikonunu ve başlığını her zaman GENEL PUANA göre alıyoruz
-    final rankInfo = RankManager.getRank(rankCalculationScore);
+    final rankInfo = RankManager.getRank(rankCalcScore);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -290,20 +372,11 @@ class _LeaderboardViewState extends State<LeaderboardView> with SingleTickerProv
       decoration: BoxDecoration(
         color: isMe ? const Color(0xFF1E293B) : Colors.black.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isMe ? const Color(0xFF6366F1).withOpacity(0.5) : Colors.white.withOpacity(0.05),
-          width: isMe ? 2 : 1,
-        ),
+        border: Border.all(color: isMe ? const Color(0xFF6366F1).withOpacity(0.5) : Colors.white.withOpacity(0.05), width: isMe ? 2 : 1),
       ),
       child: Row(
         children: [
-          SizedBox(
-            width: 30,
-            child: Text(
-              currentRank != null ? "#$currentRank" : "",
-              style: TextStyle(color: isMe ? Colors.amber : Colors.white38, fontWeight: FontWeight.w900, fontSize: 12),
-            ),
-          ),
+          SizedBox(width: 35, child: Text(currentRank != null ? "#$currentRank" : "", style: TextStyle(color: isMe ? Colors.amber : Colors.white38, fontWeight: FontWeight.w900, fontSize: 12))),
           CircleAvatar(radius: 22, backgroundImage: AssetImage(avatar)),
           const SizedBox(width: 15),
           Expanded(
@@ -311,13 +384,24 @@ class _LeaderboardViewState extends State<LeaderboardView> with SingleTickerProv
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                Text("${rankInfo['icon']} ${rankInfo['title']}".toUpperCase(),
-                    style: TextStyle(color: rankInfo['color'], fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 0.5)),
+                Text("${rankInfo['icon']} ${rankInfo['title']}".toUpperCase(), style: TextStyle(color: rankInfo['color'], fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 0.5)),
               ],
             ),
           ),
-          // ✅ Sadece sağda yazan sayı (XP) listeye göre değişir (Haftalık mı Genel mi)
-          Text("$displayScore XP", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14)),
+          Row( // ✅ XP puanının soluna küçük bir ünlem ekledik
+            children: [
+              Text("$displayScore XP", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14)),
+              const SizedBox(width: 2),
+
+              if (!isMe)
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(Icons.error_outline_rounded, color: Colors.white24, size: 16),
+                  onPressed: () => _showReportDialog(name),
+                ),
+            ],
+          ),
         ],
       ),
     );
